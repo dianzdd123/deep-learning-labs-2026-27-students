@@ -1,0 +1,86 @@
+name: Weekly student lab release
+
+on:
+  schedule:
+    # The four 2026 dates fall in GMT, so 08:35 UTC = 08:35 Europe/London.
+    - cron: '35 8 * * 2'
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Which week? auto publishes all weeks due"
+        type: choice
+        required: true
+        default: auto
+        options: [auto, orientation, cnn-resnet, rnn, transformer]
+      dry_run:
+        description: "Preview only (do not publish)"
+        type: boolean
+        default: true
+      allow_early:
+        description: "Explicitly release a selected week ahead of schedule"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: student-weekly-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate weekly student worksheets
+        env:
+          RELEASE_WEEK: ${{ inputs.week || 'auto' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          ALLOW_EARLY: ${{ inputs.allow_early || 'false' }}
+        shell: bash
+        run: |
+          args=(--week "$RELEASE_WEEK")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          if [ "$ALLOW_EARLY" = "true" ]; then args+=(--allow-early); fi
+          python scripts/release_week.py "${args[@]}"
+      - name: Validate student-only content
+        if: ${{ inputs.dry_run != true }}
+        run: python scripts/check_release.py
+      - name: Commit new labs
+        if: ${{ inputs.dry_run != true }}
+        id: commit
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md release_manifest.json
+          for d in labs orientation release_notes; do
+            if [ -d "$d" ]; then git add -A "$d"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing due or no changes needed."
+            exit 0
+          fi
+          git commit -m "Publish due student lab worksheets"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Create dated release snapshots
+        if: ${{ inputs.dry_run != true && steps.commit.outputs.changed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python scripts/release_week.py --print-tags > /tmp/week-tags.txt
+          while IFS='|' read -r tag title notes; do
+            [ -n "$tag" ] || continue
+            if gh release view "$tag" >/dev/null 2>&1; then continue; fi
+            gh release create "$tag" --target main --title "$title" --notes-file "$notes"
+          done < /tmp/week-tags.txt
