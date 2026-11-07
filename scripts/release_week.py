@@ -141,7 +141,7 @@ def render_home(released):
     # Stable student guidance survives the weekly README regeneration.
     overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
     if overview.exists():
-        txt += "\\n" + overview.read_text(encoding="utf-8")
+        txt += "\n" + overview.read_text(encoding="utf-8")
     return txt
 
 def publish_week(root, slug, repo, dry_run=False):
