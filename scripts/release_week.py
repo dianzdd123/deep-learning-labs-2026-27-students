@@ -138,6 +138,10 @@ def render_home(released):
         txt+=f"| {slug.replace('-',' ').title()} | {due} | {title} | {entry} |\n"
     txt+="\n## Study guidance\n\nRead the exercise first, predict tensor shapes, implement your own code, track validation behaviour and assess held-out examples. Use Google Colab or download the Jupyter file for VS Code/JupyterLab. Save your own copy before editing.\n\n"
     txt+="**Quizzes:** Three unmarked formative quizzes are delivered via Canvas, not GitHub. **Final Coursework:** assessment instructions and tactile datasets are separate; Canvas is the authoritative source.\n"
+    # Stable student guidance survives the weekly README regeneration.
+    overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
+    if overview.exists():
+        txt += "\\n" + overview.read_text(encoding="utf-8")
     return txt
 
 def publish_week(root, slug, repo, dry_run=False):
