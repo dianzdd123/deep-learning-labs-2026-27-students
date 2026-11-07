@@ -1,20 +1,26 @@
-# Getting started
+# Start here: Deep Learning laboratories 2026–2027
 
-**Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**
+**Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**  
+**Module leader:** Dr Dandan Zhang
 
-The labs are formative practice. Each released lab includes **two framework choices** (Keras 3/TensorFlow and PyTorch) and **two opening options**:
+Welcome. The four **formative and unmarked** core labs are CNN, ResNet, RNN and Transformer. Lab material is released by week. Each lab provides Keras/TensorFlow and PyTorch worksheets, **with intentionally blank code cells**.
 
-- **Jupyter notebook on GitHub:** view the notebook, download the `.ipynb` and open it in JupyterLab or VS Code. GitHub shows code and text but does not run notebook cells.
-- **Google Colab:** click **Open in Google Colab**, select **File > Save a copy in Drive**, then complete the empty coding cells in the browser. Optional GPU; CPU is valid.
+## Before your first lab
 
-## What to do in every lab
+1. Read the [environment setup guide](ENVIRONMENT_SETUP.md). Decide between **Google Colab** (recommended for the first run) and **JupyterLab/VS Code** on your own computer.
+2. Open a basic Python notebook, select your kernel and test a small tensor operation. A local GPU is not necessary.
+3. Read the [study guide](STUDY_GUIDANCE.md), including how to predict tensor dimensions, compare models fairly and diagnose errors.
+4. Check the separate [coursework guidance](COURSEWORK_GUIDANCE.md) and the authoritative materials on Canvas.
+5. Return to the [Student Hub homepage](../README.md) on the relevant release date for notebook links.
 
-1. Read the learning objectives and predict the input/output tensor shapes.
-2. Fill in the **empty code cells** following the instructions.
-3. Use appropriate train/validation/test separation with a documented random seed.
-4. Compare training and validation behaviour; assess held-out data only after model selection.
-5. Record your interpretation, one failure case and one next experiment.
+## Two notebook access routes
 
-**Important:** No model, training-loop or assessment solutions are prefilled. Keras and PyTorch notebooks teach matching concepts but use their respective frameworks.
+**Option A: Jupyter on GitHub.** Once released, click the Jupyter link to preview the `.ipynb`; download it to work locally in JupyterLab or VS Code. GitHub itself does not execute code.
 
-**Assessment:** The final tactile-perception coursework is separate from these teaching notebooks. Follow Canvas and the [official Final Coursework materials](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A). Three quizzes are formative, unmarked and delivered through Canvas. Do not publish student submissions or solutions in GitHub Issues.
+**Option B: Google Colab.** Once released, click **Open in Google Colab**, save a personal copy in Drive and complete the empty code cells online. CPU is adequate for the first exercise; GPU is optional.
+
+## What to bring to the session
+
+Come prepared to describe a model's input/output tensor shapes, the intended dataset split, the loss function and one measurable experiment. Save your own code and notes. Questions about submission and assessment policy belong on Canvas, not in public GitHub Issues.
+
+[Environment setup](ENVIRONMENT_SETUP.md) · [Coursework](COURSEWORK_GUIDANCE.md) · [Learning guide](STUDY_GUIDANCE.md) · [Weekly calendar](RELEASE_CALENDAR.md)

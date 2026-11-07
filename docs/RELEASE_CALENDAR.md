@@ -1,12 +1,16 @@
-# Weekly release calendar, 2026-2027
+# Weekly laboratory release calendar 2026–2027
 
-| Week | Release (London time) | Materials | Teaching |
+**Imperial College London | I-X MSc AIAI | Deep Learning**
+
+| Student release | Date (UK time) | Topic | What becomes available |
 |---|---|---|---|
-| Orientation | Tue **10 Nov 2026, 08:35 GMT** | Colab/Jupyter instructions, empty setup notebook | Lecture 0: Dataset release and Q&A |
-| CNN and ResNet | Tue **17 Nov 2026, 08:35 GMT** | CNN Keras/PyTorch; ResNet Keras/PyTorch; short lab instructions | Lecture 1 |
-| RNN | Tue **24 Nov 2026, 08:35 GMT** | RNN/GRU/LSTM Keras/PyTorch; lab instructions | Lecture 2 |
-| Transformer | Tue **1 Dec 2026, 08:35 GMT** | Transformer Keras/PyTorch; lab instructions | Lecture 3 |
+| Week 0 | **Tuesday 10 November 2026** | Dataset release and coursework Q&A | Orientation, notebook environment worksheet and dataset guidance |
+| Week 1 | **Tuesday 17 November 2026** | CNN and ResNet | Four blank practical notebooks (Keras and PyTorch for each topic), accompanying instructions |
+| Week 2 | **Tuesday 24 November 2026** | RNN, GRU and LSTM | Two blank practical notebooks and supporting instructions |
+| Week 3 | **Tuesday 1 December 2026** | Transformer and attention | Two blank practical notebooks and supporting instructions |
 
-All materials stay available after they are released. **No completed implementation code** or staff-only quiz answers are published. Three formative quiz links are managed through Canvas.
+The materials are planned for publication around **08:35 GMT** on each release date. GitHub schedules can occasionally be delayed; confirm availability from the [Student Hub homepage](../README.md). Previously released labs remain available for revision.
 
-The GitHub Actions workflow runs on Tuesdays, but scheduled executions may be delayed. The module leader can use **Actions > Weekly student lab release > Run workflow** to catch up manually. Releases are never published early unless an instructor explicitly chooses `allow_early`.
+The **three short formative quizzes are unmarked** and will be communicated through Canvas. Assessment deadlines and approved coursework data are described in the separate [coursework preparation guide](COURSEWORK_GUIDANCE.md).
+
+For the first lab, work through [environment preparation](ENVIRONMENT_SETUP.md). GitHub provides the notebook file for viewing/downloading; Colab provides a runnable cloud environment. Your code cells are blank by design.
