@@ -28,3 +28,22 @@ The public student repository intentionally contains only **student instructions
 The action commits new materials and creates a GitHub Release snapshot. A scheduled execution can be delayed or missed; manually dispatch it if necessary. Verify new links and notebook content before announcing in Canvas.
 
 **Staff-only**: Never put completed teacher solutions, confidential quiz questions or answers, student personal data, private coursework, or API tokens in this repository.
+
+## Initial Actions diagnostic and manual fallback
+
+**Status on 7 November 2026:** the repository and workflows are installed, but the initial validation workflow runs reported a GitHub Actions **failure before any job steps were returned**. The GitHub connector cannot retrieve execution logs or adjust repository Actions/billing settings, so automated publication is **configured but not confirmed operational**. Review the [Actions run page](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/actions/runs/42410088045), then check repository **Settings > Actions > General**, available hosted-runner minutes and any account billing or policy restrictions. Once a validation run succeeds, test the release workflow using its `dry_run=true` input. Do not assume a future scheduled run will succeed until these checks are completed.
+
+For a manual release if Actions is unavailable, clone the **student** repository to your computer, then run these commands from its root. Do not clone or publish the private instructor repository:
+
+```bash
+# Preview all weeks due as of today
+python scripts/release_week.py --week auto --dry-run
+# Publish only due weeks, generating empty-code student notebooks
+python scripts/release_week.py --week auto
+python scripts/check_release.py
+git add README.md release_manifest.json labs orientation release_notes
+git commit -m "Publish due weekly lab instructions"
+git push origin main
+```
+
+Only use the commands on or after a release date. The release script is date-gated; `--allow-early` exists for an explicitly intended early release. The script is idempotent and will not overwrite an already published week. On Windows, use PowerShell or Git Bash after installing Python and Git.
