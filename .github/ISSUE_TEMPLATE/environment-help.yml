@@ -1,0 +1,42 @@
+name: Environment or notebook access help
+description: Report a public setup or notebook-access problem without posting solutions.
+title: "[Setup] "
+body:
+  - type: markdown
+    attributes:
+      value: "For assessment, submissions or private information, use Canvas. Do not post completed solutions, credentials or personal records here."
+  - type: input
+    id: location
+    attributes:
+      label: Guide or worksheet
+      description: Link to the page and name the step that failed.
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where are you working?
+      options:
+        - Google Colab
+        - VS Code locally
+        - JupyterLab locally
+        - Another environment
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Framework and versions
+      description: Include OS, Python and Keras/TensorFlow or PyTorch versions if available.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Expected behaviour and first error
+      description: Include the smallest non-sensitive example or error text. Redact private paths and tokens.
+    validations:
+      required: true
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What have you checked?
+      description: Tell us what you tried and what changed.

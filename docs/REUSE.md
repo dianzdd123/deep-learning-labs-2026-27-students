@@ -16,7 +16,12 @@ For another teacher adapting this repository, preserve the blank coding cells an
 | Path | Purpose |
 |---|---|
 | `README.md` | Student landing page and current release table |
-| `docs/STUDENT_START_HERE.md` | Notebook and Git basics |
+| `docs/STUDENT_START_HERE.md` | The first-session learning route |
+| `docs/NOTEBOOK_BASICS.md` | Cells, kernels, files, updates and Python worksheets |
+| `docs/LAB_WORKFLOW.md` | Data, shape, training, investigation and evaluation checkpoints |
+| `docs/READING_GUIDE.md` | Books, papers and topic-based reading prompts |
+| `docs/LEARNING_LOG.md` | A personal record of measured results and reflection |
+| `docs/TROUBLESHOOTING.md` | Common problems and next checks |
 | `docs/ENVIRONMENT_SETUP.md` | Colab and local setup |
 | `docs/COURSEWORK_GUIDANCE.md` | Coursework preparation and authoritative sources |
 | `docs/STUDY_GUIDANCE.md` | Experimental habits and responsible AI use |
@@ -27,15 +32,13 @@ Released `orientation/` and `labs/` directories appear only when their scheduled
 
 ## Validate a local checkout
 
-These commands check the current public content and simulate releases in temporary directories; they do not publish future notebooks:
+This command checks source syntax, structured files and local documentation links. It does not publish notebooks:
 
 ```bash
 python scripts/check_repository.py
-python scripts/check_release.py
-python -m unittest discover -s tests -v
 ```
 
-Python 3.12 matches the existing notebook-check workflow. No deep learning framework is needed for these repository checks. Framework requirements belong to the released notebooks and environment guide.
+Python 3.12 matches the existing notebook-check workflow. No deep learning framework is needed for these repository checks. Framework requirement files and the small readiness helper are described in the environment guide. Released notebook/Python worksheets remain blank; the helper checks setup only.
 
 ## Expected outcomes and support
 

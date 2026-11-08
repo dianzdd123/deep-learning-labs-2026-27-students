@@ -1,34 +1,50 @@
 #!/usr/bin/env python3
-"""Fail when a student notebook contains prefilled code or future labs are exposed."""
+"""Validate released blank worksheets and the absence of unreleased lab folders."""
+import ast
 import json
 from pathlib import Path
-from release_week import WEEKS, LABS
+from release_week import WEEKS, LABS, python_worksheet
 
-root=Path(__file__).resolve().parents[1]
-manifest=json.loads((root/"release_manifest.json").read_text())
-released=manifest["released"]
-assert len(released)==len(set(released)),"Duplicate release state"
-assert set(released).issubset({w[0] for w in WEEKS})
-for slug,dt,title,labs in WEEKS:
-    if slug not in released:
-        if slug=="orientation":
-            assert not (root/"orientation/environment_check.ipynb").exists(),"Orientation prematurely released"
+
+def validate(root):
+    manifest = json.loads((root / "release_manifest.json").read_text())
+    released = manifest["released"]
+    assert len(released) == len(set(released)), "Duplicate release state"
+    assert set(released).issubset({week[0] for week in WEEKS}), "Unknown release"
+    expected = set()
+    for slug, _, _, labs in WEEKS:
+        if slug == "orientation":
+            folder = root / "orientation"
+            if slug not in released:
+                assert not folder.exists(), "Orientation prematurely released"
+            else:
+                expected.add(folder / "environment_check.ipynb")
         for key in labs:
-            n=LABS[key]["number"]
-            assert not (root/f"labs/lab{n}-{key}").exists(), f"Unreleased lab visible: {key}"
-    else:
-        for key in labs:
-            n=LABS[key]["number"]
-            for fw in ("keras","pytorch"):
-                assert (root/f"labs/lab{n}-{key}/lab{n}_{key}_{fw}.ipynb").exists()
-count=0
-for path in root.rglob("*.ipynb"):
-    n=json.loads(path.read_text())
-    assert n["nbformat"]==4
-    codes=[c for c in n["cells"] if c["cell_type"]=="code"]
-    assert len(codes)>=3, path
-    for c in codes:
-        assert "".join(c["source"]).strip()=="", f"Possible student solution code: {path}"
-        assert not c.get("outputs"), f"Filled output: {path}"
-    count+=1
-print(f"Validation passed: {count} notebooks, {len(released)} published week(s), all code cells blank.")
+            number = LABS[key]["number"]
+            folder = root / f"labs/lab{number}-{key}"
+            if slug not in released:
+                assert not folder.exists(), f"Unreleased lab visible: {key}"
+            else:
+                for framework in ("keras", "pytorch"):
+                    expected.add(folder / f"lab{number}_{key}_{framework}.ipynb")
+    found = set(root.rglob("*.ipynb"))
+    assert found == expected, "Missing or unexpected student notebooks"
+    for path in sorted(expected):
+        book = json.loads(path.read_text())
+        assert book["nbformat"] == 4
+        codes = [cell for cell in book["cells"] if cell["cell_type"] == "code"]
+        assert len(codes) >= 3, path
+        for cell in codes:
+            assert not "".join(cell["source"]).strip(), f"Prefilled student code: {path}"
+            assert cell.get("execution_count") is None and not cell.get("outputs"), path
+        script = path.with_suffix(".py")
+        assert script.is_file(), f"Missing Python worksheet: {script}"
+        content = script.read_text()
+        assert not ast.parse(content).body, f"Executable solution code in {script}"
+        assert content == python_worksheet(book), f"Notebook/Python instructions differ: {script}"
+    return len(expected), len(released)
+
+
+if __name__ == "__main__":
+    notebooks, weeks = validate(Path(__file__).resolve().parents[1])
+    print(f"Validation passed: {notebooks} blank notebook/Python pairs, {weeks} published week(s).")

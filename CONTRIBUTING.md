@@ -1,6 +1,8 @@
 # Contributing to deep-learning-labs-2026-27-students
 
-Start with the [reuse guide](docs/REUSE.md), then read the code you intend to change. For a reproducible bug, use [Issues](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/issues).
+For help using the materials, start with [Get help](docs/GETTING_HELP.md). The contributor workflow below is not required to complete a lab.
+
+For proposed repository changes, start with the [reuse guide](docs/REUSE.md), then read the code you intend to change. For a reproducible bug, use [Issues](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/issues).
 
 ## Local workflow
 
@@ -18,7 +20,7 @@ Do not upload credentials, personal data, private course material, large model w
 
 ## Validation boundaries
 
-The structural check parses tracked Python and JSON/notebook files and checks local links in the README, reuse guide and this document. It does not import research modules, run notebook cells, execute archived code, start devices, validate remote URLs or reproduce experimental performance. Hardware scripts and diagnostic files may have side effects; read their entry points before running them.
+The structural check parses tracked Python and JSON/notebook files and checks local links throughout tracked Markdown guidance. It does not import research modules, run notebook cells, execute archived code, start devices, validate remote URLs or reproduce experimental performance. Hardware scripts and diagnostic files may have side effects; read their entry points before running them.
 
 ## Attribution
 

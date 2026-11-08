@@ -24,17 +24,17 @@ LABS = {
    ("Plan the tensor shapes","Write down input dimensions, expected convolution output dimensions, the effect of pooling and the final output shape (batch, 10)."),
    ("Implement a small CNN","Create two convolution layers, nonlinearities, a pooling stage and a classification head. Print the parameter count; verify the shape of logits."),
    ("Fit a baseline","Choose appropriate loss and optimiser for integer class labels; train for a small number of epochs, record training and validation curves."),
-   ("Evaluate and improve","Produce classification metrics, a confusion matrix and at least two analysed mistakes. Change exactly one model factor and repeat fairly.")],
+   ("Evaluate and explain","Use validation evidence for one controlled model change. Freeze your choices, then report held-out metrics, a confusion matrix and representative mistakes, if any.")],
   "questions":["Why do shared local filters require fewer parameters than an equally expressive dense mapping?","Why should the test set not be used to select an architecture?"]},
  "resnet": {
   "number":2,"title":"Residual Networks and Controlled Comparison",
   "data":"CIFAR-10, 32 x 32 RGB images and ten classes",
   "goal":"Understand y = F(x) + x and the effect of an identity shortcut.",
   "steps":[
-   ("Explore RGB images","Load CIFAR-10, inspect the N/H/W/C dimensions, normalise inputs and set up a fixed train/validation/test split."),
+   ("Explore RGB images","Load CIFAR-10, inspect the image dimensions in your framework's axis order, normalise inputs and set up a fixed train/validation/test split."),
    ("Plan a residual block","Draw the identity and residual paths. Specify when tensor shapes agree for addition and when a projection would be needed."),
    ("Implement paired models","Create a compact plain block and matching residual block with identical convolution branches. Check parameter counts and dummy-batch output shapes."),
-   ("Train both fairly","Use the same optimiser, learning rate, epoch budget and data split. Plot loss and validation performance; document variance and limitations."),
+   ("Train both fairly","Use the same split, optimiser, learning rate and epoch budget. Match compatible initial branch weights and batch order where possible. Plot validation performance; document remaining differences."),
    ("Assess the evidence","Choose a model based on validation evidence; evaluate on the held-out set, inspect failures and discuss what extra seeds/depth would establish.")],
   "questions":["Why is a shortcut impossible if channel counts differ without an additional projection?","Can a short single-seed run establish the superiority of a residual architecture?"]},
  "rnn": {
@@ -45,8 +45,8 @@ LABS = {
    ("Create an order-sensitive task","Generate paired ordered and reversed sequences using the same values; plot an example and verify both have the same mean."),
    ("Prevent paired leakage","Assign entire source-sequence pairs to train/validation/test splits; document why splitting individual sequence copies would be misleading."),
    ("Implement three recurrent models","Implement RNN, GRU and LSTM classifiers with matching hidden sizes and two-class logits. Trace shapes at every timestep."),
-   ("Compare training behaviour","Use the same split, optimiser and training budget; report parameters and validation loss or accuracy for each model."),
-   ("Check failure modes","Select using validation results; evaluate on held-out examples, plot errors and explain what padding/masking means for variable length.")],
+   ("Compare training behaviour","Use the same split, optimiser and training budget; report parameters and validation evidence. Consider a simple order-sensitive baseline before claiming a need for long-term memory."),
+   ("Check failure modes","Select using validation results belonging to the saved weights you will evaluate; inspect held-out errors and explain padding/masking for variable length.")],
   "questions":["Why is an order-blind average insufficient for this task?","How do recurrent gates influence retention of state?"]},
  "transformer": {
   "number":4,"title":"Transformer Encoder and Self-Attention",
@@ -54,10 +54,10 @@ LABS = {
   "goal":"Trace patch tokens, positional embeddings and scaled dot-product attention.",
   "steps":[
    ("Inspect image patches","Divide each 28 x 28 image into non-overlapping 7 x 7 patches; derive 16 patch tokens containing 49 pixel values each."),
-   ("Implement token embeddings","Project each token into 32 features and add learnable position embeddings. Explain why position information is important."),
+   ("Implement token embeddings","Project each token into 32 features and add learnable position embeddings. Check that the position weights belong to the model and receive updates. Explain why position information is important."),
    ("Build encoder attention","Implement four-head scaled dot-product self-attention, a residual connection and feed-forward layers. Assert attention shape (batch, 4, 16, 16)."),
    ("Train a simple classifier","Pool encoder representations and predict ten class logits. Plot train and validation curves using a small, fixed budget."),
-   ("Evaluate and critique","Inspect errors, try one controlled modification, and explain why the encoder is not a complete Seq2Seq translator or generative LLM.")],
+   ("Evaluate and critique","Use validation for one controlled modification, freeze your choices, then inspect held-out errors. Explain why the encoder is not a complete Seq2Seq translator or generative LLM.")],
   "questions":["Why can't a token's original position be inferred from its contents alone?","Why is an attention heatmap not automatically an explanation of a prediction?"]},
 }
 
@@ -91,15 +91,24 @@ def make_notebook(key, framework, repo):
     cells.append(blank(1))
     for idx, (heading, description) in enumerate(lab["steps"], start=2):
         extra = ""
-        if framework == "keras":
-            extra = "Use Keras/TensorFlow conventions: channels-last images, keras.layers, compile/fit/evaluate where appropriate."
+        if key == "rnn":
+            extra = ("Use (batch, time, features); distinguish recurrent outputs, hidden states and LSTM cell state. "
+                     + ("Read the Keras recurrent-layer return options." if framework == "keras" else
+                        "Use batch_first=True where appropriate; hidden-state layout is a separate contract."))
+        elif framework == "keras":
+            extra = "Use channels-last images and Keras layers. Cross-check integer labels with the chosen loss and logits setting."
         else:
-            extra = "Use PyTorch conventions: channels-first images, nn.Module, DataLoader, explicit gradient and eval loops."
+            extra = "Use channels-first images, nn.Module and DataLoader. Distinguish training updates from evaluation."
         cells.append(md(f"## Exercise {idx-1}. {heading}\n\n{description}\n\n**Framework hint:** {extra}\n\n**Check before moving on:** Write down expected tensor shapes and the evidence you will collect.\n",idx))
         cells.append(blank(idx))
+    cells.append(md(
+        "## Help while you work\n\n"
+        f"[Lab workflow](https://github.com/{repo}/blob/main/docs/LAB_WORKFLOW.md) · "
+        f"[Troubleshooting](https://github.com/{repo}/blob/main/docs/TROUBLESHOOTING.md) · "
+        f"[Learning-log template](https://github.com/{repo}/blob/main/docs/LEARNING_LOG.md)\n", 89))
     cells.append(md("## Reflection and learning record\n\n"+ "\n".join(f"- {x}" for x in lab["questions"]) +
         "\n\nSubmit no solutions to this public repository. Save a private copy of your experiment with framework versions, "
-        "split, parameter counts, train/validation curves, held-out metrics, two errors, one limitation and one justified next experiment.\n",
+        "split, parameter counts, train/validation curves, held-out metrics, representative errors (or state that none were observed), one limitation and one justified next experiment.\n",
         90))
     return {"nbformat":4,"nbformat_minor":5,
         "metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},
@@ -114,37 +123,79 @@ def orientation_notebook():
        md("## 2. Explore the data responsibly\n\nFollow the current official Final Coursework data instructions, identify sample shapes and labels, and record your own observations. Keep test data separate from model selection.\n",2),blank(2),
        md("## 3. Questions for the teaching session\n\nWrite one dataset question and one training or evaluation question to discuss in the Q&A.\n",3),blank(3)]}
 
+def python_worksheet(notebook):
+    """Mirror the instructions as comments; keep every executable cell empty."""
+    parts = ["# Student worksheet: add your own code beneath each # %% marker.\n"
+             "# This blank template does not execute a model or training loop.\n"]
+    for cell in notebook["cells"]:
+        source = "".join(cell["source"])
+        if cell["cell_type"] == "markdown":
+            parts.append("# %% [markdown]\n" + "\n".join("# " + line for line in source.splitlines()) + "\n")
+        else:
+            if source.strip():
+                raise ValueError("Student exports must not contain filled solution code")
+            parts.append("# %%\n# Add your own implementation here.\n")
+    return "\n".join(parts)
+
+
 def lab_readme(key, repo):
-    lab=LABS[key]; n=lab["number"]; prefix=f"labs/lab{n}-{key}"
-    text=f"# Lab {n}: {lab['title']}\n\n**Imperial I-X MSc AIAI | Deep Learning 2026/27 | Dr Dandan Zhang**\n\n{lab['goal']}\n\n"
-    text+="**Two frameworks, two ways to open:**\n\n"
-    for fw, label in [("keras","Keras 3 / TensorFlow"),("pytorch","PyTorch")]:
-        path=f"{prefix}/lab{n}_{key}_{fw}.ipynb"
-        text+=f"- **{label}:** [Jupyter notebook on GitHub](https://github.com/{repo}/blob/main/{path}) | [Open in Google Colab](https://colab.research.google.com/github/{repo}/blob/main/{path})\n"
-    text+="\n**Code cells are blank by design:** Follow the instructions and write your own implementation.\n\n## Learning objectives\n\n"
-    text+= "\n".join(f"- {x[1]}" for x in lab["steps"])
-    text+="\n\n**After the lab:** Compare the training/validation evidence, explain two errors and discuss one limitation. This is unmarked formative learning.\n"
+    lab = LABS[key]
+    number = lab["number"]
+    prefix = f"labs/lab{number}-{key}"
+    text = f"# Lab {number}: {lab['title']}\n\n"
+    text += "[Student home](../../README.md) · [Lab workflow](../../docs/LAB_WORKFLOW.md) · [Get help](../../docs/GETTING_HELP.md)\n\n"
+    text += f"**Unmarked practice · Dr Dandan Zhang · Imperial I-X MSc AIAI**\n\n{lab['goal']}\n\n"
+    text += f"**Data:** {lab['data']}. Choose one framework for your first attempt.\n\n"
+    text += "| Framework | Notebook | Run online | Python worksheet |\n|---|---|---|---|\n"
+    for framework, label in [("keras", "Keras 3 / TensorFlow"), ("pytorch", "PyTorch")]:
+        stem = f"lab{number}_{key}_{framework}"
+        path = f"{prefix}/{stem}.ipynb"
+        text += (f"| {label} | [View / download]({stem}.ipynb) | "
+                 f"[Open in Colab](https://colab.research.google.com/github/{repo}/blob/main/{path}) | "
+                 f"[.py with VS Code cells]({stem}.py) |\n")
+    text += "\n## Follow this order\n\n"
+    text += "1. Save a personal copy and check its kernel/framework.\n"
+    text += "2. Read all the tasks, then implement one blank cell at a time.\n"
+    text += "3. Check shapes on a tiny batch before training.\n"
+    text += "4. Use validation evidence to choose settings; freeze choices before the final held-out evaluation.\n"
+    text += "5. Restart and run from the top, then save your work and learning record.\n\n"
+    text += "Code cells are **blank by design**. The `.py` file contains the same instructions as comments and will do nothing until you implement the tasks.\n\n"
+    text += "## Learning checkpoints\n\n" + "\n".join(f"- {description}" for _, description in lab["steps"])
+    text += "\n\n## After the lab\n\n"
+    text += "Use the [learning log](../../docs/LEARNING_LOG.md) to explain measured results, representative errors and one limitation. Keep your implementation in your own files. This lab is not a coursework submission.\n"
     return text
 
+
 def render_home(released):
-    txt="# Deep Learning | Student Laboratory Hub 2026-2027\n\n**Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**  \n**Module leader:** Dr Dandan Zhang\n\n"
-    txt+="**MSEI Lab:** [Website](https://zhangrobotics.com/msei_website/) · [Website on GitHub](https://github.com/dianzdd123/msei_website)\n\n"
-    txt+="Four core practical labs are published weekly. Every released lab offers **Keras 3/TensorFlow and PyTorch**, each with **Jupyter on GitHub** (view/download) and **Google Colab** (run online). **All coding cells start blank:** there are no filled solutions.\n\n"
-    txt+="[Start here](docs/STUDENT_START_HERE.md) | [Release calendar](docs/RELEASE_CALENDAR.md) | [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)\n\n"
-    txt+="| Release | Date | Topic | Availability |\n|---|---|---|---|\n"
-    for slug, due, title, labs in WEEKS:
-        if slug not in released: entry="Coming soon"
-        elif slug=="orientation": entry="[Open orientation](orientation/START_HERE.md)"
-        else: entry=" / ".join(f"[Lab {LABS[key]['number']} {key.upper()}](labs/lab{LABS[key]['number']}-{key}/README.md)" for key in labs)
-        txt+=f"| {slug.replace('-',' ').title()} | {due} | {title} | {entry} |\n"
-    txt+="\n## Study guidance\n\nRead the exercise first, predict tensor shapes, implement your own code, track validation behaviour and assess held-out examples. Use Google Colab or download the Jupyter file for VS Code/JupyterLab. Save your own copy before editing.\n\n"
-    txt+="**Quizzes:** Three unmarked formative quizzes are delivered via Canvas, not GitHub. **Final Coursework:** assessment instructions and tactile datasets are separate; Canvas is the authoritative source.\n"
-    # Stable student guidance survives the weekly README regeneration.
+    text = "# Deep Learning | Student Laboratory Hub 2026–2027\n\n"
+    text += "**ELEC70129 · Imperial College London · I-X MSc AIAI**  \n**Module leader: Dr Dandan Zhang**\n\n"
+    text += "Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.\n\n"
+    text += "## Start in three steps\n\n"
+    text += "1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.\n"
+    text += "2. **Set up once:** choose [Colab or local VS Code/Jupyter](docs/ENVIRONMENT_SETUP.md), then run the small readiness check.\n"
+    text += "3. **When your lab is released:** open its page below, save your own copy and follow the [lab workflow](docs/LAB_WORKFLOW.md).\n\n"
+    text += "**Choose Keras/TensorFlow or PyTorch for your first run.** You do not need both. Released notebooks have deliberately blank code cells; writing the code is the exercise. GitHub previews files; Colab or a local Python kernel executes them.\n\n"
+    text += "## Weekly worksheets\n\n"
+    text += "Preparation guides are available now. A worksheet link appears after that week is published. Until then, **Coming soon** is expected. [Full calendar](docs/RELEASE_CALENDAR.md).\n\n"
+    text += "| Release | Date, 2026 | Topic | Open the worksheet |\n|---|---|---|---|\n"
+    for index, (slug, due, title, labs) in enumerate(WEEKS):
+        if slug not in released:
+            entry = "Coming soon"
+        elif slug == "orientation":
+            entry = "[Preparation worksheet](orientation/START_HERE.md)"
+        else:
+            entry = " · ".join(f"[Lab {LABS[key]['number']}: {key.upper()}](labs/lab{LABS[key]['number']}-{key}/README.md)" for key in labs)
+        topic = title.split(": ", 1)[1]
+        text += f"| Week {index} | {due} | {topic} | {entry} |\n"
+    text += "\nEach released lab page offers a notebook, a Colab link and a matching blank Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.\n"
+    # Keep this reusable guidance after the changing release table.
     overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
     if overview.exists():
-        txt += "\n" + overview.read_text(encoding="utf-8")
-    txt += "\n## Reusing these materials\n\n[Reuse and validation guide](docs/REUSE.md) · [Contributing](CONTRIBUTING.md). Keep future labs and assessed solutions unpublished; check reuse permissions before redistributing materials.\n"
-    return txt
+        text += "\n" + overview.read_text(encoding="utf-8")
+    text += "\n## Course and wider resources\n\n"
+    text += "[Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) · [MSEI Lab website](https://zhangrobotics.com/msei_website/) · [MSEI website on GitHub](https://github.com/dianzdd123/msei_website)\n\n"
+    text += "For proposed material fixes or reuse, see [Contributing](CONTRIBUTING.md) and [Reuse guidance](docs/REUSE.md). Reuse permissions need clarification because this repository has no repository-wide licence file.\n"
+    return text
 
 def publish_week(root, slug, repo, dry_run=False):
     manifest_path=root/"release_manifest.json"
@@ -156,15 +207,27 @@ def publish_week(root, slug, repo, dry_run=False):
     week=next(w for w in WEEKS if w[0]==slug)
     changes={}
     if slug=="orientation":
-        changes["orientation/START_HERE.md"]="# Week 0: Dataset release and preparation\n\n[Open setup notebook](environment_check.ipynb). The graded tactile dataset is available through the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A); Canvas establishes the official course instructions. This is an unmarked Q&A and preparation session.\n"
-        changes["orientation/environment_check.ipynb"]=json.dumps(orientation_notebook(),indent=2)+"\n"
+        changes["orientation/START_HERE.md"] = (
+            "# Week 0: Dataset release and preparation\n\n"
+            "[Student home](../README.md) · [Environment setup](../docs/ENVIRONMENT_SETUP.md)\n\n"
+            "Save your own copy of this blank preparation worksheet. Follow Canvas for the approved tactile dataset.\n\n"
+            "[View / download notebook](environment_check.ipynb) · "
+            f"[Open in Colab](https://colab.research.google.com/github/{repo}/blob/main/orientation/environment_check.ipynb) · "
+            "[Blank Python worksheet](environment_check.py)\n\n"
+            "Complete your environment checks, inspect data only through the official coursework route, and record one question for the Q&A. "
+            "This is unmarked preparation, not an assessment submission.\n")
+        notebook = orientation_notebook()
+        changes["orientation/environment_check.ipynb"] = json.dumps(notebook, indent=2) + "\n"
+        changes["orientation/environment_check.py"] = python_worksheet(notebook)
     else:
         for key in week[3]:
             n=LABS[key]["number"]
             folder=f"labs/lab{n}-{key}"
             changes[f"{folder}/README.md"]=lab_readme(key,repo)
             for fw in ("keras","pytorch"):
-                changes[f"{folder}/lab{n}_{key}_{fw}.ipynb"]=json.dumps(make_notebook(key,fw,repo),indent=2)+"\n"
+                notebook = make_notebook(key, fw, repo)
+                changes[f"{folder}/lab{n}_{key}_{fw}.ipynb"] = json.dumps(notebook, indent=2) + "\n"
+                changes[f"{folder}/lab{n}_{key}_{fw}.py"] = python_worksheet(notebook)
     changes[f"release_notes/{slug}.md"]=f"# {week[2]}\n\nPublished: {week[1]}\n\nThe repository now includes student instructions and deliberately empty coding cells for this week's activities. Previous labs remain accessible. No completed implementations or staff-only answer keys are included.\n"
     released.add(slug)
     changes["README.md"]=render_home(released)

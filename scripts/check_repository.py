@@ -43,10 +43,11 @@ def main() -> int:
         except (SyntaxError, ValueError, UnicodeError) as exc:
             failures.append(f"{rel}: {exc}")
 
-    # Deliberately check navigation documents, not illustrative links inside
-    # code examples or private/generated research notes.
-    for rel in ("README.md", "docs/REUSE.md", "CONTRIBUTING.md"):
-        path = root / rel
+    # Check the complete learning route, including generated lab landing pages.
+    for path in files:
+        if path.suffix != ".md":
+            continue
+        rel = path.relative_to(root)
         if not path.is_file():
             failures.append(f"Missing navigation document: {rel}")
             continue

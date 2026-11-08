@@ -1,0 +1,4 @@
+# Python 3.12 reference; no Intel macOS wheel for this TensorFlow version.
+-r requirements-notebooks.txt
+tensorflow==2.20.0
+keras==3.11.3

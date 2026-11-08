@@ -43,3 +43,8 @@ For **assessed coursework**, the official module AI-use policy applies. Do not u
 Write a short record after each session containing: **objective; framework and versions; dataset; split and seed; model and parameter count; training budget; validation results; held-out results; observed errors; what you learned; what remains uncertain**.
 
 Readings: [Keras Guides](https://keras.io/guides/), [PyTorch Tutorials](https://pytorch.org/tutorials/), [Dive into Deep Learning](https://d2l.ai/), [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
+
+
+## Continue with a practical guide
+
+[Lab workflow](LAB_WORKFLOW.md) · [Learning-log template](LEARNING_LOG.md) · [Reading guide](READING_GUIDE.md) · [Glossary](GLOSSARY.md) · [Get help](GETTING_HELP.md).

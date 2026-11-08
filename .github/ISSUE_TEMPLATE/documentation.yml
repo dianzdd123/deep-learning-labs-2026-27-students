@@ -1,0 +1,22 @@
+name: Improve a guide or fix a link
+description: Tell us where public learning instructions are unclear or incorrect.
+title: "[Docs] "
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or link
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is unclear or incorrect?
+      description: Explain the expected destination or the step that was difficult to follow.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
+      description: Optional. Keep assessed solutions and personal information out of public issues.

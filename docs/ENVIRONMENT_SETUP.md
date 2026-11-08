@@ -1,89 +1,218 @@
-# Prepare your Python environment
+# Environment setup: Colab, VS Code or JupyterLab
 
-**Deep Learning 2026–2027 | Imperial College London | Dr Dandan Zhang**
+[Student home](../README.md) · [Start here](STUDENT_START_HERE.md) · [Troubleshooting](TROUBLESHOOTING.md)
 
-**Start here before the first lab.** All four major lab exercises are supplied as Jupyter `.ipynb` files. Each lab offers a **Keras 3 / TensorFlow** option and a **PyTorch** option. You need only one to complete a guided first attempt.
+Choose **one environment and one framework** for your first lab. The course has
+Keras 3 with TensorFlow, and PyTorch with torchvision. Both can start on CPU.
 
-## Choose your environment
+## Route A: Google Colab
 
-| | Google Colab: recommended | Local Jupyter or VS Code |
-|---|---|---|
-| Install Python? | No: use a hosted runtime | Yes: install Python and packages |
-| Install a GPU? | No: CPU works; GPU may be requested | No: a CPU environment is sufficient |
-| Open the notebook | Click **Open in Google Colab** after release | Download `.ipynb` from GitHub |
-| Save work | **File > Save a copy in Drive** | Save the file in your own project directory |
-| Temporary files | Runtime storage can be reset | Stored on your own computer |
-| Suitable for | First run and easy setup | Learning editors, projects and version control |
+1. Open [Colab](https://colab.research.google.com/) and create a new notebook for
+   preparation, or open a released worksheet using its Colab link.
+2. For a course worksheet, choose **File → Save a copy in Drive**. Give the copy a
+   useful name. Check that your copy is the one you are editing.
+3. Connect to a Python runtime. Run the following in a code cell:
 
-## Route A: Google Colab in a browser
+```python
+import sys
+print("Python:", sys.version.split()[0])
+print("Interpreter:", sys.executable)
+print("My notebook is running")
+```
 
-1. Sign in to [Google Colab](https://colab.research.google.com/) with a Google account.
-2. When the week's lab is released, use its **Open in Google Colab** link from the [student homepage](../README.md).
-3. Choose **File > Save a copy in Drive**. Edit your own copy, not the instructor's original.
-4. Read the Markdown instructions first. Add your code to the **blank coding cells**, in order.
-5. Select **Runtime > Run all** only after your code is ready; for debugging, run cells one at a time.
-6. A CPU runtime is valid for the small introductory exercises. To request a GPU, use **Runtime > Change runtime type**, if available. GPU access is not guaranteed.
-7. Save the notebook, record your Python/framework versions and keep your experiment outputs. Runtime files under `/content` may disappear after a reset.
+4. Run **one** of the framework checks below. Colab's installed versions can change;
+   record the versions printed rather than assuming they match the local pins.
+5. If an import fails, read the error and install the missing package in that
+   runtime. Use `%pip` in a notebook cell, and restart if the installation asks you
+   to. Avoid replacing a working environment merely to match a different machine.
+6. Keep CPU for preparation. For later experiments, **Runtime → Change runtime
+   type** may offer a GPU. Availability and runtime duration are not guaranteed.
+7. Save the notebook. Download important plots/results from the runtime files panel
+   before disconnecting; saving a notebook does not save every file under `/content`.
 
-A released lab is **not** a complete solution notebook. You are expected to write imports, data preparation, model architecture, training and evaluation code yourself.
+### Small PyTorch check
 
-## Route B: Jupyter Notebook or VS Code locally
+```python
+import torch
+print("PyTorch:", torch.__version__)
+values = torch.tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+print("Shape:", tuple(values.shape))  # two rows, three columns
+print("Mean:", values.mean().item())
+```
 
-1. Install a supported [Python](https://www.python.org/downloads/) version. **Python 3.12** is a suitable course reference; check package compatibility on your operating system.
-2. Install [VS Code](https://code.visualstudio.com/) with the **Python** and **Jupyter** extensions, or install [JupyterLab](https://jupyter.org/).
-3. Download the released `.ipynb` from GitHub: open it and choose the **Download raw file** control.
-4. Create and activate a Python virtual environment in a personal project directory. Use that environment as the notebook kernel.
-5. Install **only the framework for your chosen lab**, with NumPy, Matplotlib, scikit-learn and notebook dependencies.
+Expected: shape **`(2, 3)`**, mean **`3.5`**. This checks basic tensor operations,
+not training accuracy or GPU operation.
 
-**Windows PowerShell:**
+### Small Keras/TensorFlow check
+
+Use this as the first framework cell in a fresh kernel:
+
+```python
+import os
+os.environ["KERAS_BACKEND"] = "tensorflow"  # choose before importing Keras
+import keras
+from keras import ops
+print("Keras:", keras.__version__, "Backend:", keras.backend.backend())
+values = ops.convert_to_tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+print("Shape:", tuple(values.shape))
+print("Mean:", float(ops.convert_to_numpy(ops.mean(values))))
+```
+
+Expected: backend **`tensorflow`**, shape **`(2, 3)`**, mean **`3.5`**. If Keras was
+already imported with another backend, restart the kernel before changing it.
+
+## Route B: local VS Code or JupyterLab
+
+These commands use the course's **Python 3.12 reference stack**. The pins match the
+Linux CPU reference used for the teaching materials; they are not a guarantee for
+every operating system or processor. If your platform has no matching wheel, use
+Colab or ask for a suitable institutional environment.
+
+### 1. Get a working folder
+
+Install Python 3.12 and, for VS Code, the official **Python** and **Jupyter**
+extensions. On the [repository homepage](../README.md), choose **Code → Download
+ZIP**, extract it fully, and open the extracted folder in VS Code. Do not work
+inside the ZIP preview. No Git installation is needed for this route.
+
+Open a terminal in the folder containing `README.md`, `requirements-notebooks.txt`
+and `scripts/`. If you have Git and prefer a clone, use:
+
+```bash
+git clone https://github.com/dianzdd123/deep-learning-labs-2026-27-students.git
+cd deep-learning-labs-2026-27-students
+```
+
+### 2. Create the environment
+
+**Windows PowerShell** — use the explicit interpreter, so activation-policy changes
+are unnecessary:
+
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install jupyterlab numpy matplotlib scikit-learn
-# Choose one framework:
-.\.venv\Scripts\python.exe -m pip install keras tensorflow
-# OR: follow https://pytorch.org/get-started/locally/ for PyTorch/torchvision
+.\.venv\Scripts\python.exe -m pip install -r requirements-notebooks.txt
 ```
 
-**macOS or Linux terminal:**
+**macOS / Linux terminal:**
+
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 .venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install jupyterlab numpy matplotlib scikit-learn
-# Choose one framework:
-.venv/bin/python -m pip install keras tensorflow
-# OR: follow https://pytorch.org/get-started/locally/ for PyTorch/torchvision
+.venv/bin/python -m pip install -r requirements-notebooks.txt
 ```
 
-For PyTorch, choose the installer appropriate to your platform from the [official selector](https://pytorch.org/get-started/locally/). It is normal for the Keras and PyTorch notebook versions to use different input axis conventions. TensorFlow/Keras usually expects `(N,H,W,C)` image arrays while PyTorch commonly uses `(N,C,H,W)`.
+If `py -3.12` or `python3.12` is not found, check your Python installation before
+continuing. Do not silently use a different interpreter.
 
-The folder `.venv/` must not be committed to GitHub. Do not copy your personal environment or credentials into a public repository.
+### 3. Install one framework
+
+**PyTorch, Windows or Linux CPU:**
+
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\python.exe -m pip install -r requirements-pytorch-cpu.txt
+```
+
+```bash
+# Linux terminal
+.venv/bin/python -m pip install -r requirements-pytorch-cpu.txt
+```
+
+The CPU file uses the official PyTorch wheel index and the matched
+`torch==2.8.0` / `torchvision==0.23.0` pair. Install the common notebook file first.
+
+**PyTorch, macOS:** after the common notebook installation, use:
+
+```bash
+.venv/bin/python -m pip install torch==2.8.0 torchvision==0.23.0
+```
+
+For other processors or accelerator configurations, consult the
+[official installation selector](https://pytorch.org/get-started/locally/) and
+[version pairing instructions](https://pytorch.org/get-started/previous-versions/).
+
+**Keras/TensorFlow alternative:**
+
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\python.exe -m pip install -r requirements-keras.txt
+```
+
+```bash
+# macOS / Linux terminal
+.venv/bin/python -m pip install -r requirements-keras.txt
+```
+
+The reference is TensorFlow 2.20.0 with Keras 3.11.3. Native Windows uses CPU for
+this route. Intel macOS does not have the pinned TensorFlow wheel; use Colab.
+Check the [TensorFlow installation guide](https://www.tensorflow.org/install/pip)
+for platform support. GPU configuration is outside this first setup exercise.
+
+### 4. Check the environment
+
+The helper checks the interpreter, imports, a small tensor and a writable temporary
+folder. It does not download a dataset, train a model or install anything.
+
+```powershell
+# Windows; replace pytorch with keras if that is your chosen framework
+.\.venv\Scripts\python.exe scripts/check_environment.py --framework pytorch
+```
+
+```bash
+# macOS / Linux
+.venv/bin/python scripts/check_environment.py --framework pytorch
+```
+
+A successful run ends with **`Environment check passed.`** CPU operation is expected.
+You can run `--framework none` for the Python/file check before installing a framework.
+If a check fails, read its named component and the original error in the output.
+
+### 5. Select the kernel and run a cell
+
+In VS Code:
+
+1. Open your `.ipynb` file.
+2. Use **Select Kernel** at the top right; select the Python environment in this
+   project's `.venv`. The exact menu labels may vary by extension version.
+3. Run the Python version cell above. `sys.executable` should point into `.venv`.
+4. Run your chosen tensor check, save, restart the kernel and rerun from the top.
+
+Selecting **Python: Select Interpreter** for terminal scripts does not by itself
+prove that the notebook selected the same kernel. Check the printed path.
+
+To use JupyterLab instead, start it from the project environment:
+
+```powershell
+.\.venv\Scripts\python.exe -m jupyterlab
+```
+
+```bash
+.venv/bin/python -m jupyterlab
+```
+
+Keep that terminal open while using JupyterLab.
 
 ## Pre-lab readiness check
 
-Before attempting a model, verify all of the following:
-
-- You can open a released notebook and save a personal copy.
-- You can select a Python kernel/runtime and execute a simple Python expression.
-- You understand the difference between a **Markdown cell** and a **code cell**.
-- You can import the framework you chose and inspect its version.
-- You can create a small array/tensor, inspect `shape`, and print the result.
-- You can make a basic plot and save your notebook.
-- You know where the notebook, downloaded data and outputs will be stored.
-
-The required lab work does **not** depend on a local CUDA installation or paid Colab service.
+- [ ] I can save my notebook in a location I recognise.
+- [ ] I can select a kernel and print its Python executable.
+- [ ] My chosen framework reports its version and completes the tensor check.
+- [ ] I can run cells in order after a kernel restart.
+- [ ] I can distinguish Markdown instructions from executable code cells.
+- [ ] I know that the released worksheet's blank code cells are intentional.
+- [ ] I know where to keep results and how to ask for help.
 
 ## Common problems
 
-| Problem | First check |
-|---|---|
-| Notebook opens but cannot run | Select a running kernel/runtime; check Python version and imports |
-| `ModuleNotFoundError` | Install the missing package into the **same** interpreter used by the notebook |
-| No GPU appears | Use CPU for the first run; GPU access depends on the environment |
-| Colab files disappear | Runtime storage is temporary; save notebooks and download important results |
-| Notebook works locally but not in Colab | Compare Python/framework versions, dataset paths and device settings |
-| Shape mismatch | Print every intermediate tensor's shape; check channels-last vs channels-first |
-| `CUDA out of memory` | Reduce batch size, choose a smaller training subset or use CPU |
-| GitHub notebook cannot be edited | GitHub is a viewer; download it or open in Colab |
+Use the [troubleshooting guide](TROUBLESHOOTING.md) for missing packages, kernels,
+shape errors, slow runs and lost Colab files. **Next:** [Notebook basics](NOTEBOOK_BASICS.md).
 
-**Further reference:** [Keras documentation](https://keras.io/), [TensorFlow tutorials](https://www.tensorflow.org/tutorials), [PyTorch installation](https://pytorch.org/get-started/locally/), [VS Code Jupyter](https://code.visualstudio.com/docs/datascience/jupyter-notebooks), [Colab FAQ](https://research.google.com/colaboratory/faq.html).
+## Sources
+
+Setup guidance is based on the official [Colab FAQ](https://research.google.com/colaboratory/faq.html),
+[VS Code notebook documentation](https://code.visualstudio.com/docs/datascience/jupyter-notebooks),
+[Python virtual-environment guide](https://docs.python.org/3.12/library/venv.html),
+[PyTorch version instructions](https://pytorch.org/get-started/previous-versions/) and
+[TensorFlow installation guide](https://www.tensorflow.org/install/pip), checked
+8 November 2026. The preparation sequence and readiness checklist are teaching guidance.

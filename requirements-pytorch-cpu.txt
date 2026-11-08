@@ -1,0 +1,5 @@
+# Windows/Linux CPU reference. Install requirements-notebooks.txt separately first.
+# macOS and other devices: follow docs/ENVIRONMENT_SETUP.md.
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.8.0
+torchvision==0.23.0

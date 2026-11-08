@@ -1,74 +1,66 @@
-# Deep Learning | Student Laboratory Hub 2026-2027
+# Deep Learning | Student Laboratory Hub 2026–2027
 
-**MSEI Lab:** [Website](https://zhangrobotics.com/msei_website/) · [Website on GitHub](https://github.com/dianzdd123/msei_website)
+**ELEC70129 · Imperial College London · I-X MSc AIAI**  
+**Module leader: Dr Dandan Zhang**
 
-## Start here
+Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.
 
+## Start in three steps
 
-**Scope:** Scheduled blank worksheets and preparation guidance; unreleased labs and assessed solutions stay unpublished.
+1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.
+2. **Set up once:** choose [Colab or local VS Code/Jupyter](docs/ENVIRONMENT_SETUP.md), then run the small readiness check.
+3. **When your lab is released:** open its page below, save your own copy and follow the [lab workflow](docs/LAB_WORKFLOW.md).
 
-| Need | Where to start |
-|---|---|
-| Setup, file map, inputs/outputs and troubleshooting | [Reuse guide](docs/REUSE.md) |
-| Local structural validation | `python scripts/check_repository.py` (Python 3.10+) |
-| Proposed fixes and reproducibility details | [Contributing](CONTRIBUTING.md) |
+**Choose Keras/TensorFlow or PyTorch for your first run.** You do not need both. Released notebooks have deliberately blank code cells; writing the code is the exercise. GitHub previews files; Colab or a local Python kernel executes them.
 
-The structural check does not run experiments or certify hardware, model accuracy or dependency compatibility. Reuse permissions need clarification: this checkout has no repository-wide licence file.
+## Weekly worksheets
 
+Preparation guides are available now. A worksheet link appears after that week is published. Until then, **Coming soon** is expected. [Full calendar](docs/RELEASE_CALENDAR.md).
 
-**Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**  
-**Module leader:** Dr Dandan Zhang
-
-Welcome to the student-facing teaching repository. Four practical labs are published according to the schedule below. Each lab includes **instructions and blank coding cells**, in both Keras/TensorFlow and PyTorch.
-
-| Release | Date | Topic | Status |
+| Release | Date, 2026 | Topic | Open the worksheet |
 |---|---|---|---|
-| Week 0 | Tue 10 Nov 2026 | Dataset release, Colab and Jupyter preparation | Coming soon |
-| Week 1 | Tue 17 Nov 2026 | Lab 1 CNN and Lab 2 ResNet | Coming soon |
-| Week 2 | Tue 24 Nov 2026 | Lab 3 RNN | Coming soon |
-| Week 3 | Tue 01 Dec 2026 | Lab 4 Transformer | Coming soon |
+| Week 0 | 2026-11-10 | Dataset release and preparation | Coming soon |
+| Week 1 | 2026-11-17 | CNN and ResNet | Coming soon |
+| Week 2 | 2026-11-24 | Recurrent Neural Networks | Coming soon |
+| Week 3 | 2026-12-01 | Transformer and Attention | Coming soon |
 
-Once released, each laboratory offers **Jupyter on GitHub** (preview or download) and **Open in Google Colab** (run online). Nothing in these practice notebooks is a marked assessment.
+Each released lab page offers a notebook, a Colab link and a matching blank Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.
 
-[Getting started](docs/STUDENT_START_HERE.md) | [Release calendar](docs/RELEASE_CALENDAR.md) | [Official Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)
+## Use the guides when you need them
 
-The three unmarked formative quizzes are delivered through Canvas; quiz answers and future assessed solutions are not published here.
+[All student guides](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/README.md).
 
-## Prepare before your first practical
+| I want to… | Open |
+|---|---|
+| Set up a notebook for the first time | [Start here](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/STUDENT_START_HERE.md) |
+| Install locally or choose a Colab runtime | [Environment setup](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/ENVIRONMENT_SETUP.md) |
+| Understand cells, kernels, Python worksheets and saving | [Notebook basics](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/NOTEBOOK_BASICS.md) |
+| Work through a lab and know what to check | [Lab workflow](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/LAB_WORKFLOW.md) |
+| Record my settings, evidence and reflection | [Learning-log template](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/LEARNING_LOG.md) |
+| Find a focused reading or explain a term | [Reading guide](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/READING_GUIDE.md) · [Glossary](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/GLOSSARY.md) |
+| Resolve an error or ask a useful question | [Troubleshooting](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/TROUBLESHOOTING.md) · [Get help](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/GETTING_HELP.md) |
 
-**Recommended first route: Google Colab.** You can complete the labs in a browser using a Google account and Python runtime. A local GPU is **not required**. If you prefer working locally, you may download exactly the same `.ipynb` notebook and use JupyterLab or VS Code.
+## Practice, quizzes and assessed coursework
 
-| Step | What to do | Resource |
-|---|---|---|
-| 1 | Choose Colab or local Jupyter/VS Code; prepare Python and your notebook environment. | [Environment setup](docs/ENVIRONMENT_SETUP.md) |
-| 2 | Read how notebooks work: Markdown instructions, empty coding cells, execution order and saving your own copy. | [Student getting started](docs/STUDENT_START_HERE.md) |
-| 3 | Check Python, your chosen framework and the available CPU/GPU; run a small tensor test of your own. | [Environment checklist](docs/ENVIRONMENT_SETUP.md#pre-lab-readiness-check) |
-| 4 | Read the assessment overview and dataset rules **on Canvas**; do not confuse unmarked labs with graded coursework. | [Coursework guidance](docs/COURSEWORK_GUIDANCE.md) |
-| 5 | Review how to plan experiments, control data leakage and interpret outcomes. | [Learning and study guidance](docs/STUDY_GUIDANCE.md) |
+The four labs are **formative and unmarked**. Three unmarked quizzes are delivered
+through Canvas. Keep your own completed worksheets and results; do not post solutions
+in this public repository. Use the [study and AI-use guidance](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/STUDY_GUIDANCE.md)
+for practice, and the official Canvas policy for assessed work.
 
-## What happens during a lab?
+| Assessment | Published deadline, GMT |
+|---|---|
+| Part A: individual, 60 marks | 13 December 2026, 23:59 |
+| Part B: group, 40 marks | 20 December 2026, 23:59 |
+| Peer assessment | 23 December 2026, 23:59 |
 
-The module includes **four main unmarked practical labs: CNN, ResNet, RNN and Transformer**. Each release contains **Keras 3/TensorFlow** and **PyTorch** worksheets. You may choose one framework for the main experiment; the other version is available to compare.
+**Canvas is authoritative** for the current handbook, submission links, group rules,
+quiz availability and clarified assessment policies. Read the
+[coursework guidance](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/COURSEWORK_GUIDANCE.md)
+and use the [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)
+for the official data/code route. Practice datasets and results are not assessed submissions.
 
-- **Jupyter notebook on GitHub:** preview or download the `.ipynb` to run in JupyterLab or VS Code. GitHub itself does not execute code.
-- **Open in Google Colab:** run the same notebook online, save a copy in Drive and complete the deliberately empty code cells.
+## Course and wider resources
 
-The practical tasks guide you from a hypothesis and tensor-shape prediction through implementation, evaluation and reflection. **No completed model or training-loop answers are supplied**.
+[Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) · [MSEI Lab website](https://zhangrobotics.com/msei_website/) · [MSEI website on GitHub](https://github.com/dianzdd123/msei_website)
 
-## Final Coursework at a glance
-
-| Assessment | What you will do | Deadline (GMT) |
-|---|---|---|
-| **Part A: Individual, 60 marks** | Tactile shape classification and 3D contact-force estimation; report plus model/code submission | **Sun 13 Dec 2026, 23:59** |
-| **Part B: Group, 40 marks** | Advanced tactile-perception proof of concept with a video presentation of at most five minutes | **Sun 20 Dec 2026, 23:59** |
-| **Peer assessment** | Individual contribution review via Canvas | **Wed 23 Dec 2026, 23:59** |
-
-**Canvas is authoritative** for the current full handbook, submission links, confirmed group-size rules, quiz availability and any clarified assessment policies. The supplied handbook editions contain some differences, so do not rely on an older copy for disputed rules. Read the [coursework preparation and dataset guide](docs/COURSEWORK_GUIDANCE.md) before beginning assessed work.
-
-Three **unmarked formative quizzes** complement the lectures. Quiz questions and answer keys are not published in this repository.
-
-## Help and course resources
-
-[Coursework preparation](docs/COURSEWORK_GUIDANCE.md) · [Git and notebook basics](docs/STUDENT_START_HERE.md) · [Environment troubleshooting](docs/ENVIRONMENT_SETUP.md#common-problems) · [Study and AI-use guidance](docs/STUDY_GUIDANCE.md) · [Weekly lab calendar](docs/RELEASE_CALENDAR.md)
-
-For timetable changes, assessment announcements, submission and support channels, use your module's **Canvas** page. Do not post assessed solutions, credentials or confidential student information in public GitHub Issues.
+For proposed material fixes or reuse, see [Contributing](CONTRIBUTING.md) and [Reuse guidance](docs/REUSE.md). Reuse permissions need clarification because this repository has no repository-wide licence file.
