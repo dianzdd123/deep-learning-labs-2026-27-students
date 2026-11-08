@@ -3,3 +3,10 @@ __pycache__/
 .venv/
 .env
 *.pyc
+
+# Local development artefacts and credentials
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.env.*
+!.env.example

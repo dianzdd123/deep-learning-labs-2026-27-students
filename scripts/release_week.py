@@ -142,6 +142,7 @@ def render_home(released):
     overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
     if overview.exists():
         txt += "\n" + overview.read_text(encoding="utf-8")
+    txt += "\n## Reusing these materials\n\n[Reuse and validation guide](docs/REUSE.md) · [Contributing](CONTRIBUTING.md). Keep future labs and assessed solutions unpublished; check reuse permissions before redistributing materials.\n"
     return txt
 
 def publish_week(root, slug, repo, dry_run=False):

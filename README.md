@@ -1,5 +1,19 @@
 # Deep Learning | Student Laboratory Hub 2026-2027
 
+## Start here
+
+
+**Scope:** Scheduled blank worksheets and preparation guidance; unreleased labs and assessed solutions stay unpublished.
+
+| Need | Where to start |
+|---|---|
+| Setup, file map, inputs/outputs and troubleshooting | [Reuse guide](docs/REUSE.md) |
+| Local structural validation | `python scripts/check_repository.py` (Python 3.10+) |
+| Proposed fixes and reproducibility details | [Contributing](CONTRIBUTING.md) |
+
+The structural check does not run experiments or certify hardware, model accuracy or dependency compatibility. Reuse permissions need clarification: this checkout has no repository-wide licence file.
+
+
 **Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**  
 **Module leader:** Dr Dandan Zhang
 
