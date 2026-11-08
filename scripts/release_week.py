@@ -128,6 +128,7 @@ def lab_readme(key, repo):
 
 def render_home(released):
     txt="# Deep Learning | Student Laboratory Hub 2026-2027\n\n**Imperial College London | I-X MSc Artificial Intelligence Applications and Innovation (AIAI)**  \n**Module leader:** Dr Dandan Zhang\n\n"
+    txt+="**MSEI Lab:** [Website](https://zhangrobotics.com/msei_website/) · [Website on GitHub](https://github.com/dianzdd123/msei_website)\n\n"
     txt+="Four core practical labs are published weekly. Every released lab offers **Keras 3/TensorFlow and PyTorch**, each with **Jupyter on GitHub** (view/download) and **Google Colab** (run online). **All coding cells start blank:** there are no filled solutions.\n\n"
     txt+="[Start here](docs/STUDENT_START_HERE.md) | [Release calendar](docs/RELEASE_CALENDAR.md) | [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)\n\n"
     txt+="| Release | Date | Topic | Availability |\n|---|---|---|---|\n"
