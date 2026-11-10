@@ -1,3 +1,22 @@
+## Four main labs
+
+These lab numbers match **Main labs** on the [teaching page](https://www.intelligentrobotics-acrossscales.com/teaching). Choose Keras 3 / TensorFlow or PyTorch; the eight framework options represent **four labs**, not eight required sessions.
+
+| Lab | Teaching date, 2026 | Practice dataset | Focus |
+|---|---|---|---|
+| 1 · CNN | 17 November | Fashion-MNIST, 28 × 28 greyscale images | Receptive fields, shared filters, pooling and classification |
+| 2 · ResNet | 17 November | CIFAR-10, 32 × 32 colour images | Compact plain versus residual models under a matched training budget |
+| 3 · RNN | 24 November | Synthetic forward/reverse sequence pairs | RNN, GRU and LSTM; keep correlated pairs in the same split |
+| 4 · Transformer | 1 December | Fashion-MNIST image patches | Sixteen 7 × 7 patch tokens and an encoder classifier |
+
+The ResNet exercise is a compact teaching comparison. The Transformer exercise is an **image-patch encoder classifier**, not a complete Seq2Seq translator, language model or diffusion model.
+
+## Additional sessions are optional
+
+The teaching page also lists setup/tensors/training, image folders (Cats vs Dogs), text sentiment (IMDb), ResNet transfer learning, and earlier CNN, ResNet, RNN and attention tutorials. These are preparation or independent-study extensions, with **no extra required labs or scheduled teaching dates**. They are not part of this repository's four-lab worksheet release sequence. Use the teaching page and approved course access for their availability.
+
+GNNs, full Seq2Seq, diffusion and AGI are lecture or reading topics; this public worksheet repository does not supply runnable labs for them. A blank student worksheet needs your implementation before it can train a model.
+
 ## Use the guides when you need them
 
 [All student guides](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/README.md).
@@ -29,4 +48,7 @@ for practice, and the official Canvas policy for assessed work.
 quiz availability and clarified assessment policies. Read the
 [coursework guidance](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/COURSEWORK_GUIDANCE.md)
 and use the [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)
-for the official data/code route. Practice datasets and results are not assessed submissions.
+for the **released Part A tactile dataset**, setup and submission-interface instructions. Follow that repository's dataset download link; downloading this lab repository does not provide the coursework images. Practice datasets and results are not assessed submissions.
+
+On the teaching page, published slides and handbooks have cover previews and open in a view-only reader; videos have visible previews. Public PDF viewing needs no activation code. A PDF download requires an activation code, which is separate from student notebook/course access. The final coursework section displays the **nine-page Simplified Handbook**; use the current Canvas handbook and clarifications for assessment decisions.
+

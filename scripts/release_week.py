@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 
 REPO = "dianzdd123/deep-learning-labs-2026-27-students"
 WEEKS = [
-    ("orientation", "2026-11-10", "Week 0: Dataset release and preparation", []),
+    ("orientation", "2026-11-10", "Preparation: Environment check and coursework data exploration", []),
     ("cnn-resnet", "2026-11-17", "Week 1: CNN and ResNet", ["cnn", "resnet"]),
     ("rnn", "2026-11-24", "Week 2: Recurrent Neural Networks", ["rnn"]),
     ("transformer", "2026-12-01", "Week 3: Transformer and Attention", ["transformer"]),
@@ -118,7 +118,7 @@ def make_notebook(key, framework, repo):
 def orientation_notebook():
     return {"nbformat":4,"nbformat_minor":5,
        "metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python"},"colab":{"provenance":[]}},
-       "cells":[md("# Week 0: Getting started with Google Colab\n\n**Dataset release and coursework Q&A | 10 November 2026**\n\nThis is a blank instructional worksheet. Open in Colab or download for Jupyter/VS Code. Use your own code to check Python, list packages and inspect the approved coursework dataset following Canvas instructions.\n",0),
+       "cells":[md("# Preparation: Getting started with Google Colab\n\n**Environment check and coursework data exploration | 10 November 2026**\n\nThis is an optional blank preparation worksheet, separate from the four main labs. Open in Colab or download for Jupyter/VS Code. Check Python and your chosen framework, then follow the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) for the released tactile dataset. This worksheet does not contain that dataset. Use the current handbook and announcements on Canvas for assessed work.\n",0),
        md("## 1. Check your environment\n\nWrite code to report Python version, selected Keras or PyTorch version and the available CPU/GPU. Do not paste access tokens.\n",1),blank(1),
        md("## 2. Explore the data responsibly\n\nFollow the current official Final Coursework data instructions, identify sample shapes and labels, and record your own observations. Keep test data separate from model selection.\n",2),blank(2),
        md("## 3. Questions for the teaching session\n\nWrite one dataset question and one training or evaluation question to discuss in the Q&A.\n",3),blank(3)]}
@@ -170,13 +170,16 @@ def render_home(released):
     text = "# Deep Learning | Student Laboratory Hub 2026–2027\n\n"
     text += "**ELEC70129 · Imperial College London · I-X MSc AIAI**  \n**Module leader: Dr Dandan Zhang**\n\n"
     text += "Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.\n\n"
+    text += "**Course home:** [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching). Use it for the course introduction, lecture materials, handbook previews, videos and the Main labs / Additional sessions overview. **Canvas** holds the current assessment handbook, briefing slides, official announcements and submission links.\n\n"
+    text += "**Student course access:** contact [Dr Dandan Zhang](mailto:d.zhang17@imperial.ac.uk) at **d.zhang17@imperial.ac.uk**, quoting your module code and the resource title. This public repository contains preparation guides and, when published here, blank student worksheets. Authorised notebooks linked from the teaching page may require separate course access.\n\n"
     text += "## Start in three steps\n\n"
     text += "1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.\n"
     text += "2. **Set up once:** choose [Colab or local VS Code/Jupyter](docs/ENVIRONMENT_SETUP.md), then run the small readiness check.\n"
     text += "3. **When your lab is released:** open its page below, save your own copy and follow the [lab workflow](docs/LAB_WORKFLOW.md).\n\n"
     text += "**Choose Keras/TensorFlow or PyTorch for your first run.** You do not need both. Released notebooks have deliberately blank code cells; writing the code is the exercise. GitHub previews files; Colab or a local Python kernel executes them.\n\n"
     text += "## Weekly worksheets\n\n"
-    text += "Preparation guides are available now. A worksheet link appears after that week is published. Until then, **Coming soon** is expected. [Full calendar](docs/RELEASE_CALENDAR.md).\n\n"
+    text += "This table reports **blank worksheet availability in this public repository**, not the availability of lecture slides, authorised worked examples or the assessed dataset. Preparation is separate from the four numbered main labs. [Full teaching and release calendar](docs/RELEASE_CALENDAR.md).\n\n"
+    text += "**Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.\n\n"
     text += "| Release | Date, 2026 | Topic | Open the worksheet |\n|---|---|---|---|\n"
     for index, (slug, due, title, labs) in enumerate(WEEKS):
         if slug not in released:
@@ -186,7 +189,8 @@ def render_home(released):
         else:
             entry = " · ".join(f"[Lab {LABS[key]['number']}: {key.upper()}](labs/lab{LABS[key]['number']}-{key}/README.md)" for key in labs)
         topic = title.split(": ", 1)[1]
-        text += f"| Week {index} | {due} | {topic} | {entry} |\n"
+        label = "Preparation (not a main lab)" if slug == "orientation" else " + ".join(f"Lab {LABS[key]['number']}" for key in labs)
+        text += f"| {label} | {due} | {topic} | {entry} |\n"
     text += "\nEach released lab page offers a notebook, a Colab link and a matching blank Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.\n"
     # Keep this reusable guidance after the changing release table.
     overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
@@ -208,9 +212,9 @@ def publish_week(root, slug, repo, dry_run=False):
     changes={}
     if slug=="orientation":
         changes["orientation/START_HERE.md"] = (
-            "# Week 0: Dataset release and preparation\n\n"
+            "# Preparation: Environment check and coursework data exploration\n\n"
             "[Student home](../README.md) · [Environment setup](../docs/ENVIRONMENT_SETUP.md)\n\n"
-            "Save your own copy of this blank preparation worksheet. Follow Canvas for the approved tactile dataset.\n\n"
+            "This optional preparation activity is separate from Labs 1–4. Save your own copy of the blank worksheet. The assessed tactile dataset is released through the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A), not through this worksheet. Follow the current handbook on Canvas.\n\n"
             "[View / download notebook](environment_check.ipynb) · "
             f"[Open in Colab](https://colab.research.google.com/github/{repo}/blob/main/orientation/environment_check.ipynb) · "
             "[Blank Python worksheet](environment_check.py)\n\n"
@@ -265,3 +269,4 @@ def main():
     if not due:print(f"No release due yet on {today}")
 if __name__=="__main__":
     main()
+

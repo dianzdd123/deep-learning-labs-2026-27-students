@@ -11,6 +11,12 @@
 | Assessment rules, marks, extensions, group arrangements or submissions | Canvas and the authorised module support channel |
 | A private dataset, personal circumstance or assessed code | An authorised private channel, not a public issue |
 
+For **student course access**, contact **Dr Dandan Zhang** at
+[d.zhang17@imperial.ac.uk](mailto:d.zhang17@imperial.ac.uk). Include **ELEC70129** and
+the resource title. Check the [teaching page](https://www.intelligentrobotics-acrossscales.com/teaching)
+for published slides, handbook previews and videos. Public PDF viewing does not
+need a code; PDF download activation and authorised notebook access are separate.
+
 Use the repository's **Issues → New issue** control for a public material problem.
 An issue is public; review your text and attachments before submitting it.
 
@@ -36,3 +42,4 @@ readable and searchable.
 Try the relevant [troubleshooting row](TROUBLESHOOTING.md), save your work and reduce
 the problem to the smallest step that fails. You do not need to solve everything
 alone before asking. Explain what you understand and where the uncertainty begins.
+

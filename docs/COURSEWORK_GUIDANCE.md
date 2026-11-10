@@ -1,65 +1,64 @@
-# Preparing for the Final Deep Learning Coursework
+# Final coursework: materials, data and submission
 
-**Imperial I-X MSc AIAI | 2026–2027**
+[Student home](../README.md) · [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching)
 
-This page helps you prepare technically and organise your work. It does not replace your current Final Coursework handbook or any Canvas announcements. **Canvas is the authoritative source** for assessments, extension procedures, official marking instructions and submission.
+**ELEC70129 · Imperial I-X MSc AIAI · 2026/27**
+
+## Use the right resource
+
+| Resource | What to use it for |
+|---|---|
+| **Canvas** | Current coursework handbook and briefing slides; official announcements, assessment rules, deadlines, group arrangements and submissions |
+| **Teaching page → Final coursework** | Nine-page Simplified Handbook preview, project briefing slides, Sessions A–C video previews and suggested work plan |
+| **[Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)** | Released tactile dataset, data exploration, setup and model submission-interface instructions |
+| **This lab repository** | Preparation guides and published blank formative worksheets for CNN, ResNet, RNN and Transformer |
+
+The **coursework handbook and briefing slides are available on Canvas**, and the
+**Part A dataset has been released through GitHub**. Follow the Part A repository's
+README and its dataset download link. The images are in the dataset archive;
+**Code → Download ZIP** of either repository is not the coursework dataset download.
+
+A **Coming soon** status for a lab worksheet here says nothing about the released
+coursework data. Use the current handbook and clarifications issued on **Canvas** for assessment
+decisions; slides and recorded briefings are supporting explanations.
 
 ## Assessment overview
 
-| Component | Weight | Main work | Due (GMT) |
+| Component | Marks | Focus | Published deadline (GMT) |
 |---|---:|---|---|
-| **Part A: Individual** | **60 marks** | Tactile shape classification, 3D contact-force regression and technical report | **13 Dec 2026, 23:59** |
-| **Part B: Group** | **40 marks** | An advanced tactile-perception project with a working proof of concept and video | **20 Dec 2026, 23:59** |
-| **Individual peer assessment** | Contributes to Part B moderation | Complete your own Canvas submission | **23 Dec 2026, 23:59** |
+| Part A · individual | 60 | Tactile shape classification and three-dimensional contact-force estimation | 13 December 2026, 23:59 |
+| Part B · group | 40 | Advanced tactile perception, proof of concept and video presentation | 20 December 2026, 23:59 |
+| Individual peer assessment | Part B moderation | Your own peer-assessment submission | 23 December 2026, 23:59 |
 
-[Official Final Coursework project](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) · [Assessment overview](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A/blob/main/docs/ASSESSMENT_OVERVIEW.md) · [Data preparation guide](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A/blob/main/docs/GETTING_STARTED.md)
+Confirm deadlines, group size, marking criteria, any bonus conditions, required
+baselines, AI-use rules and submission contents against the **current Canvas
+handbook**. This lab hub does not maintain a second version of those detailed
+assessment rules. Submit assessed work through Canvas.
 
-The coursework repository and releases may require access. If you cannot open them, follow the **Canvas** materials and contact the module teaching team; do not assume the student lab repository includes the assessed dataset.
+## Before starting Part A
 
-## Part A: What to prepare
+1. Read the current handbook and review the briefing slides on Canvas.
+2. Follow the [Part A repository README](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A#start-here) to download the tactile dataset and prepare your environment.
+3. Inspect image/label mapping, create the prescribed training/validation/test splits and keep related force contact pairs together.
+4. Build a baseline, use validation evidence for model choices and keep the held-out test set for final evaluation.
+5. Check the current submission interface and package requirements before extensive experiments.
 
-The released tactile dataset contains **2,000 shape-classification images and 2,000 force-estimation images**. The two tasks require different prediction targets:
+The main labs use **Fashion-MNIST, CIFAR-10 and synthetic sequences** for formative
+practice. They are separate from the tactile coursework dataset and are not
+additional authorised Part A training data. Part B is a separate project; use its
+current Canvas guidance for permitted data and project scope.
 
-- **Shape:** classify each tactile image into one of ten shape categories; report meaningful class-level results and a confusion matrix.
-- **Force:** predict the three contact-force components `fx`, `fy`, `fz` **in newtons**, with the original sign convention. Press and shear samples associated with the same physical contact require careful split handling.
+Keep assessed implementations, reports, checkpoints and results in your own
+private working space. Do not post assessed solutions or personal information in
+this public repository or its Issues. Cite sources and declare any permitted AI
+assistance as required by the current coursework policy.
 
-The specified development approach uses **60% training, 20% validation and 20% test** partitions. Shape classification should use suitable class stratification; for force estimation, **split by contact ID** so paired press/shear observations never straddle the partitions. Fit data-dependent preprocessing only on training data, choose architectures on validation data and reserve the held-out test set for evaluation.
+## Access and questions
 
-The supplied coursework guidance expects at least **three CNN architecture comparisons** for shape classification and at least **two architecture comparisons** for force regression. Report macro precision/recall/F1 and a confusion matrix for shape; report RMSE by force axis and overall for regression, with interpretation of press and shear behaviour.
+For **student course access**, contact **Dr Dandan Zhang** at
+[d.zhang17@imperial.ac.uk](mailto:d.zhang17@imperial.ac.uk), quoting **ELEC70129** and
+the resource title. Ask assessment questions through the module's authorised
+support channel or contact the teaching team; check Canvas for clarifications.
 
-**Part A submission format:** consult Canvas for the definitive package specification. The existing briefing describes a **3–6-page IEEE two-column report**, code and a CID-labelled model folder containing `predict.py`, all submitted as one ZIP. Check inference, dependency, runtime and model-size rules against the current handbook rather than relying only on a working notebook.
-
-### Part A preparation checklist
-
-- Read and understand the currently issued handbook.
-- Access the approved dataset; inspect labels, image shapes and class distribution.
-- Verify image-to-label mapping and contact-pair integrity.
-- Create and **save** a leakage-free split with a documented seed.
-- Establish at least one appropriate baseline before making architectural changes.
-- Compare architectures with fair training budgets and relevant metrics.
-- Track failures, uncertainty and resource requirements, not merely the highest score.
-- Keep assessed code, reports and checkpoints in your **private working space**.
-
-**Dataset rule:** these unmarked student labs use separate teaching datasets such as Fashion-MNIST, CIFAR-10 and synthetic sequences. They must not be treated as extra authorised training data for assessed Part A.
-
-## Part B: Group project preparation
-
-The group project focuses on a **stakeholder-relevant tactile-perception problem**, a **working proof-of-concept model**, credible evaluation and a presentation video of **no more than five minutes**. Every group member must contribute and present in their own voice.
-
-| Milestone | Date |
-|---|---|
-| Group list confirmed | 23 Nov 2026 |
-| Group charter and proposed project direction | 29 Nov 2026, 23:59 GMT |
-| TA progress check | 30 Nov–4 Dec 2026 |
-| Part B submission | 20 Dec 2026, 23:59 GMT |
-| Peer assessment | 23 Dec 2026, 23:59 GMT |
-
-Discuss the problem, intended stakeholder, relevant research literature, available data, evaluation metrics and division of work before implementing a complex architecture. **Do not use the Part A dataset or prohibited TacVerse GelSight subsets for Part B.** Check the current Canvas handbook for approved datasets and project directions.
-
-## Assessment clarification and integrity
-
-Different editions of the earlier and simplified handbook disagree on **Part B group size**, **optional bonus limits** and whether a **training-mean force baseline** is required or recommended. The simplified handbook explicitly defers to the full handbook when inconsistent. **Follow the version or clarification identified on Canvas; ask the teaching team if that remains unclear.** This student hub does not adjudicate those differences.
-
-Part A is individual assessed work. Do not publish solution notebooks, model checkpoints, reports or private data in public GitHub repositories or Issues. Cite relevant datasets, papers and external code. Any permitted AI assistance must be verified and declared according to the current coursework policy; never fabricate results, references or experiments.
-
-**Submission, official help and policy clarifications take place through Canvas**, not through this lab repository.
+Published PDFs on the teaching page are free to **view online**. A PDF download
+activation code is separate from access to notebooks, datasets or Canvas.

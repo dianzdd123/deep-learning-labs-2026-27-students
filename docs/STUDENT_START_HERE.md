@@ -45,9 +45,10 @@ your chosen framework imports; you know where your work is saved.
 ## 3. Open a worksheet when it is released
 
 Return to the [release table on the homepage](../README.md#weekly-worksheets).
-Before release, the row says **Coming soon** and no lab download is expected.
-Preparation guides are available now. If a scheduled date has passed but the row
-still says Coming soon, check Canvas for the teaching team's announcement.
+It tracks blank worksheets in this public repository. **Coming soon** means that
+worksheet has not been published here; it does not describe the status of lecture
+slides, authorised course notebooks or the released Part A dataset. Preparation is
+separate from Labs 1–4. If a scheduled worksheet is missing, check Canvas.
 
 For a released lab:
 
@@ -65,14 +66,20 @@ own code. Use the notebook first if you want plots and explanations together.
 
 | Resource | Use it for |
 |---|---|
-| This student hub | Preparation, released blank worksheets, practice and help |
-| [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) | Available lecture materials and wider course resources |
+| This public student hub | Preparation guides, published blank worksheets, practice and help |
+| [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) | Course introduction, lecture and handbook previews, videos, Main labs and optional Additional sessions |
 | Canvas | Confirmed timetable, support channels, quizzes, assessment rules and submission |
 | [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) | Official coursework code/data access and accompanying instructions |
 | Your own files | Implementations, notes, measured results and saved figures |
 
 The lab exercises are formative. They are not your Part A or Part B submission.
 Read [coursework guidance](COURSEWORK_GUIDANCE.md) before starting assessed work.
+
+For **student course access**, contact **Dr Dandan Zhang** at
+[d.zhang17@imperial.ac.uk](mailto:d.zhang17@imperial.ac.uk), quoting the module code
+and resource title. The public preparation repository and authorised course
+notebooks are separate routes. PDF download activation codes do not grant notebook
+access; the published PDFs on the teaching page can be viewed without a code.
 
 ## 5. If you get stuck
 
@@ -82,3 +89,4 @@ framework/version and what you expected. Keep assessed code, personal data and
 credentials out of public issues.
 
 **Next:** [Set up your environment](ENVIRONMENT_SETUP.md).
+
