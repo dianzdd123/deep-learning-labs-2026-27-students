@@ -27,7 +27,9 @@ exploration are preparation activities, not a fifth main lab.
 ## Public worksheet publication
 
 The [homepage table](../README.md#weekly-worksheets) is the current status of blank
-worksheets published **in this repository**. The planned dates are:
+worksheets published **in this repository**. **CNN Lab 1 was released on 16 November 2026** ahead of the 17 November practical. [Open the CNN worksheets](../labs/lab1-cnn/README.md). ResNet Lab 2 remains scheduled for 17 November.
+
+The planned dates are:
 
 | Release | Date, 2026 | Contents when published |
 |---|---|---|

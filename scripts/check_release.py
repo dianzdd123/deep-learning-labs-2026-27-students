@@ -9,7 +9,10 @@ from release_week import WEEKS, LABS, python_worksheet
 def validate(root):
     manifest = json.loads((root / "release_manifest.json").read_text())
     released = manifest["released"]
+    released_labs = manifest.get("released_labs", [])
     assert len(released) == len(set(released)), "Duplicate release state"
+    assert len(released_labs) == len(set(released_labs)), "Duplicate individual lab release"
+    assert set(released_labs).issubset(LABS), "Unknown individual lab release"
     assert set(released).issubset({week[0] for week in WEEKS}), "Unknown release"
     expected = set()
     for slug, _, _, labs in WEEKS:
@@ -22,7 +25,7 @@ def validate(root):
         for key in labs:
             number = LABS[key]["number"]
             folder = root / f"labs/lab{number}-{key}"
-            if slug not in released:
+            if slug not in released and key not in released_labs:
                 assert not folder.exists(), f"Unreleased lab visible: {key}"
             else:
                 for framework in ("keras", "pytorch"):

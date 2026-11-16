@@ -26,7 +26,7 @@ This table reports **blank worksheet availability in this public repository**, n
 | Release | Date, 2026 | Topic | Open the worksheet |
 |---|---|---|---|
 | Preparation (not a main lab) | 2026-11-10 | Environment check and coursework data exploration | [Preparation worksheet](orientation/START_HERE.md) |
-| Lab 1 + Lab 2 | 2026-11-17 | CNN and ResNet | Coming soon |
+| Lab 1 + Lab 2 | 2026-11-17 | CNN and ResNet | [Lab 1: CNN](labs/lab1-cnn/README.md) · Lab 2: Coming soon |
 | Lab 3 | 2026-11-24 | Recurrent Neural Networks | Coming soon |
 | Lab 4 | 2026-12-01 | Transformer and Attention | Coming soon |
 

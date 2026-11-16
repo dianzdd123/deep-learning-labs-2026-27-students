@@ -119,8 +119,32 @@ class StudentJourneyTests(unittest.TestCase):
         self.assertEqual(script.read_bytes(), changed)
 
     def test_published_home_matches_current_template(self):
-        released = set(json.loads((ROOT / "release_manifest.json").read_text())["released"])
-        self.assertEqual((ROOT / "README.md").read_text(), render_home(released))
+        manifest = json.loads((ROOT / "release_manifest.json").read_text())
+        released = set(manifest["released"])
+        self.assertEqual((ROOT / "README.md").read_text(), render_home(released, manifest.get("released_labs", [])))
+
+    def test_individual_cnn_release_survives_scheduled_week(self):
+        self.release("orientation")
+        folder = self.root / "labs/lab1-cnn"
+        folder.mkdir(parents=True)
+        for framework in ("keras", "pytorch"):
+            notebook = make_notebook("cnn", framework, REPO)
+            notebook["cells"][0]["source"].append("\nKeep this released CNN revision.\n")
+            path = folder / f"lab1_cnn_{framework}.ipynb"
+            path.write_text(json.dumps(notebook))
+            path.with_suffix(".py").write_text(python_worksheet(notebook))
+        manifest = {"released": ["orientation"], "released_labs": ["cnn"]}
+        (self.root / "release_manifest.json").write_text(json.dumps(manifest))
+        home = render_home({"orientation"}, ["cnn"])
+        self.assertIn("Lab 2: Coming soon", home)
+        self.assertEqual(validate(self.root), (3, 1))
+        before = {p.name: p.read_bytes() for p in folder.iterdir()}
+        self.release("cnn-resnet")
+        self.assertEqual(validate(self.root), (5, 2))
+        self.assertTrue((self.root / "labs/lab2-resnet").is_dir())
+        for name, content in before.items():
+            self.assertEqual((folder / name).read_bytes(), content)
+        self.assertEqual(json.loads((self.root / "release_manifest.json").read_text())["released_labs"], ["cnn"])
 
 
 if __name__ == "__main__":

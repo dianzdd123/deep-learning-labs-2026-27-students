@@ -166,7 +166,7 @@ def lab_readme(key, repo):
     return text
 
 
-def render_home(released):
+def render_home(released, released_labs=()):
     text = "# Deep Learning | Student Laboratory Hub 2026–2027\n\n"
     text += "**ELEC70129 · Imperial College London · I-X MSc AIAI**  \n**Module leader: Dr Dandan Zhang**\n\n"
     text += "Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.\n\n"
@@ -182,12 +182,15 @@ def render_home(released):
     text += "**Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.\n\n"
     text += "| Release | Date, 2026 | Topic | Open the worksheet |\n|---|---|---|---|\n"
     for index, (slug, due, title, labs) in enumerate(WEEKS):
-        if slug not in released:
+        if slug not in released and not any(key in released_labs for key in labs):
             entry = "Coming soon"
         elif slug == "orientation":
             entry = "[Preparation worksheet](orientation/START_HERE.md)"
         else:
-            entry = " · ".join(f"[Lab {LABS[key]['number']}: {key.upper()}](labs/lab{LABS[key]['number']}-{key}/README.md)" for key in labs)
+            entry = " · ".join(
+                f"[Lab {LABS[key]['number']}: {key.upper()}](labs/lab{LABS[key]['number']}-{key}/README.md)"
+                if slug in released or key in released_labs else f"Lab {LABS[key]['number']}: Coming soon"
+                for key in labs)
         topic = title.split(": ", 1)[1]
         label = "Preparation (not a main lab)" if slug == "orientation" else " + ".join(f"Lab {LABS[key]['number']}" for key in labs)
         text += f"| {label} | {due} | {topic} | {entry} |\n"
@@ -205,6 +208,7 @@ def publish_week(root, slug, repo, dry_run=False):
     manifest_path=root/"release_manifest.json"
     state=json.loads(manifest_path.read_text())
     released=set(state.get("released",[]))
+    released_labs=set(state.get("released_labs",[]))
     if slug in released:
         print(f"Already published: {slug}")
         return []
@@ -225,6 +229,8 @@ def publish_week(root, slug, repo, dry_run=False):
         changes["orientation/environment_check.py"] = python_worksheet(notebook)
     else:
         for key in week[3]:
+            if key in released_labs:
+                continue
             n=LABS[key]["number"]
             folder=f"labs/lab{n}-{key}"
             changes[f"{folder}/README.md"]=lab_readme(key,repo)
@@ -234,8 +240,11 @@ def publish_week(root, slug, repo, dry_run=False):
                 changes[f"{folder}/lab{n}_{key}_{fw}.py"] = python_worksheet(notebook)
     changes[f"release_notes/{slug}.md"]=f"# {week[2]}\n\nPublished: {week[1]}\n\nThe repository now includes student instructions and deliberately empty coding cells for this week's activities. Previous labs remain accessible. No completed implementations or staff-only answer keys are included.\n"
     released.add(slug)
-    changes["README.md"]=render_home(released)
-    changes["release_manifest.json"]=json.dumps({"released":[w[0] for w in WEEKS if w[0] in released]},indent=2)+"\n"
+    changes["README.md"]=render_home(released, released_labs)
+    manifest={"released":[w[0] for w in WEEKS if w[0] in released]}
+    if released_labs:
+        manifest["released_labs"]=sorted(released_labs)
+    changes["release_manifest.json"]=json.dumps(manifest,indent=2)+"\n"
     if dry_run:
         for name in changes:print("Would publish:",name)
         return list(changes)
