@@ -5,9 +5,9 @@ These lab numbers match **Main labs** on the [teaching page](https://www.intelli
 | Lab | Teaching date, 2026 | Practice dataset | Focus |
 |---|---|---|---|
 | 1 · CNN | 17 November | Fashion-MNIST, 28 × 28 greyscale images | Receptive fields, shared filters, pooling and classification |
-| 2 · ResNet | 17 November | CIFAR-10, 32 × 32 colour images | Compact plain versus residual models under a matched training budget |
-| 3 · RNN | 24 November | Synthetic forward/reverse sequence pairs | RNN, GRU and LSTM; keep correlated pairs in the same split |
-| 4 · Transformer | 1 December | Fashion-MNIST image patches | Sixteen 7 × 7 patch tokens and an encoder classifier |
+| 2 · ResNet | 24 November | CIFAR-10, 32 × 32 colour images | Compact plain versus residual models under a matched training budget |
+| 3 · RNN | 1 December | Synthetic forward/reverse sequence pairs | RNN, GRU and LSTM; keep correlated pairs in the same split |
+| 4 · Transformer | 7 December | Fashion-MNIST image patches | Sixteen 7 × 7 patch tokens and an encoder classifier |
 
 The ResNet exercise is a compact teaching comparison. The Transformer exercise is an **image-patch encoder classifier**, not a complete Seq2Seq translator, language model or diffusion model.
 
@@ -33,8 +33,7 @@ GNNs, full Seq2Seq, diffusion and AGI are lecture or reading topics; this public
 
 ## Practice, quizzes and assessed coursework
 
-The four labs are **formative and unmarked**. Three unmarked quizzes are delivered
-through Canvas. Keep your own completed worksheets and results; do not post solutions
+The four labs are **formative and unmarked**. Three unmarked quizzes are delivered through Canvas: **Quiz 1 — CNNs, ResNet and RNNs (24 November)**; **Quiz 2 — NLP, Seq2Seq and Attention (1 December)**; **Quiz 3 — Transformers, GPT and LLMs (7 December)**. Keep your own completed worksheets and results; do not post solutions
 in this public repository. Use the [study and AI-use guidance](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/STUDY_GUIDANCE.md)
 for practice, and the official Canvas policy for assessed work.
 

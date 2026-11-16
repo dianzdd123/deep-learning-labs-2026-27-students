@@ -40,7 +40,7 @@ class WeeklyReleaseTests(unittest.TestCase):
                     book=json.loads(fn.read_text())
                     self.assertTrue(all(not c["source"] for c in book["cells"] if c["cell_type"]=="code"))
         m=json.loads((self.root/"release_manifest.json").read_text())
-        self.assertEqual(len(m["released"]),4)
+        self.assertEqual(len(m["released"]),5)
 
     def test_preview_and_future_not_visible(self):
         preview=publish_week(self.root,"orientation",REPO,True)

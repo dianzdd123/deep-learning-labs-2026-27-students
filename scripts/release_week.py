@@ -10,9 +10,10 @@ from zoneinfo import ZoneInfo
 REPO = "dianzdd123/deep-learning-labs-2026-27-students"
 WEEKS = [
     ("orientation", "2026-11-10", "Preparation: Environment check and coursework data exploration", []),
-    ("cnn-resnet", "2026-11-17", "Week 1: CNN and ResNet", ["cnn", "resnet"]),
-    ("rnn", "2026-11-24", "Week 2: Recurrent Neural Networks", ["rnn"]),
-    ("transformer", "2026-12-01", "Week 3: Transformer and Attention", ["transformer"]),
+    ("cnn", "2026-11-17", "Week 1: CNN Image Classification", ["cnn"]),
+    ("resnet", "2026-11-24", "Week 2: Residual Networks", ["resnet"]),
+    ("rnn", "2026-12-01", "Week 3: Recurrent Sequence Modelling", ["rnn"]),
+    ("transformer", "2026-12-07", "Week 4: Transformer Image Classification", ["transformer"]),
 ]
 LABS = {
  "cnn": {
@@ -172,6 +173,12 @@ def render_home(released, released_labs=()):
     text += "Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.\n\n"
     text += "**Course home:** [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching). Use it for the course introduction, lecture materials, handbook previews, videos and the Main labs / Additional sessions overview. **Canvas** holds the current assessment handbook, briefing slides, official announcements and submission links.\n\n"
     text += "**Student course access:** contact [Dr Dandan Zhang](mailto:d.zhang17@imperial.ac.uk) at **d.zhang17@imperial.ac.uk**, quoting your module code and the resource title. This public repository contains preparation guides and, when published here, blank student worksheets. Authorised notebooks linked from the teaching page may require separate course access.\n\n"
+    if "cnn" in released or "cnn" in released_labs:
+        text += "## Released now: CNN Lab 1\n\n"
+        text += "**[Open CNN Lab 1](labs/lab1-cnn/README.md)** · Released 16 November for the **17 November** practical.\n\n"
+        text += "[![Keras: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/" + REPO + "/blob/main/labs/lab1-cnn/lab1_cnn_keras.ipynb) **Keras / TensorFlow** &nbsp; "
+        text += "[![PyTorch: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/" + REPO + "/blob/main/labs/lab1-cnn/lab1_cnn_pytorch.ipynb) **PyTorch**\n\n"
+        text += "Choose one framework. Save your own copy and implement the blank exercise cells.\n\n"
     text += "## Start in three steps\n\n"
     text += "1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.\n"
     text += "2. **Set up once:** choose [Colab or local VS Code/Jupyter](docs/ENVIRONMENT_SETUP.md), then run the small readiness check.\n"
@@ -180,7 +187,7 @@ def render_home(released, released_labs=()):
     text += "## Weekly worksheets\n\n"
     text += "This table reports **blank worksheet availability in this public repository**, not the availability of lecture slides, authorised worked examples or the assessed dataset. Preparation is separate from the four numbered main labs. [Full teaching and release calendar](docs/RELEASE_CALENDAR.md).\n\n"
     text += "**Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.\n\n"
-    text += "| Release | Date, 2026 | Topic | Open the worksheet |\n|---|---|---|---|\n"
+    text += "| Lab / preparation | Teaching date, 2026 | Topic | Worksheet availability |\n|---|---|---|---|\n"
     for index, (slug, due, title, labs) in enumerate(WEEKS):
         if slug not in released and not any(key in released_labs for key in labs):
             entry = "Coming soon"

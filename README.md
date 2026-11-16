@@ -9,6 +9,14 @@ Learn to build, inspect and explain a deep learning experiment. Start with one f
 
 **Student course access:** contact [Dr Dandan Zhang](mailto:d.zhang17@imperial.ac.uk) at **d.zhang17@imperial.ac.uk**, quoting your module code and the resource title. This public repository contains preparation guides and, when published here, blank student worksheets. Authorised notebooks linked from the teaching page may require separate course access.
 
+## Released now: CNN Lab 1
+
+**[Open CNN Lab 1](labs/lab1-cnn/README.md)** · Released 16 November for the **17 November** practical.
+
+[![Keras: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dianzdd123/deep-learning-labs-2026-27-students/blob/main/labs/lab1-cnn/lab1_cnn_keras.ipynb) **Keras / TensorFlow** &nbsp; [![PyTorch: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dianzdd123/deep-learning-labs-2026-27-students/blob/main/labs/lab1-cnn/lab1_cnn_pytorch.ipynb) **PyTorch**
+
+Choose one framework. Save your own copy and implement the blank exercise cells.
+
 ## Start in three steps
 
 1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.
@@ -23,12 +31,13 @@ This table reports **blank worksheet availability in this public repository**, n
 
 **Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.
 
-| Release | Date, 2026 | Topic | Open the worksheet |
+| Lab / preparation | Teaching date, 2026 | Topic | Worksheet availability |
 |---|---|---|---|
 | Preparation (not a main lab) | 2026-11-10 | Environment check and coursework data exploration | [Preparation worksheet](orientation/START_HERE.md) |
-| Lab 1 + Lab 2 | 2026-11-17 | CNN and ResNet | [Lab 1: CNN](labs/lab1-cnn/README.md) · Lab 2: Coming soon |
-| Lab 3 | 2026-11-24 | Recurrent Neural Networks | Coming soon |
-| Lab 4 | 2026-12-01 | Transformer and Attention | Coming soon |
+| Lab 1 | 2026-11-17 | CNN Image Classification | [Lab 1: CNN](labs/lab1-cnn/README.md) |
+| Lab 2 | 2026-11-24 | Residual Networks | Coming soon |
+| Lab 3 | 2026-12-01 | Recurrent Sequence Modelling | Coming soon |
+| Lab 4 | 2026-12-07 | Transformer Image Classification | Coming soon |
 
 Each released lab page offers a notebook, a Colab link and a matching blank Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.
 
@@ -39,9 +48,9 @@ These lab numbers match **Main labs** on the [teaching page](https://www.intelli
 | Lab | Teaching date, 2026 | Practice dataset | Focus |
 |---|---|---|---|
 | 1 · CNN | 17 November | Fashion-MNIST, 28 × 28 greyscale images | Receptive fields, shared filters, pooling and classification |
-| 2 · ResNet | 17 November | CIFAR-10, 32 × 32 colour images | Compact plain versus residual models under a matched training budget |
-| 3 · RNN | 24 November | Synthetic forward/reverse sequence pairs | RNN, GRU and LSTM; keep correlated pairs in the same split |
-| 4 · Transformer | 1 December | Fashion-MNIST image patches | Sixteen 7 × 7 patch tokens and an encoder classifier |
+| 2 · ResNet | 24 November | CIFAR-10, 32 × 32 colour images | Compact plain versus residual models under a matched training budget |
+| 3 · RNN | 1 December | Synthetic forward/reverse sequence pairs | RNN, GRU and LSTM; keep correlated pairs in the same split |
+| 4 · Transformer | 7 December | Fashion-MNIST image patches | Sixteen 7 × 7 patch tokens and an encoder classifier |
 
 The ResNet exercise is a compact teaching comparison. The Transformer exercise is an **image-patch encoder classifier**, not a complete Seq2Seq translator, language model or diffusion model.
 
@@ -67,8 +76,7 @@ GNNs, full Seq2Seq, diffusion and AGI are lecture or reading topics; this public
 
 ## Practice, quizzes and assessed coursework
 
-The four labs are **formative and unmarked**. Three unmarked quizzes are delivered
-through Canvas. Keep your own completed worksheets and results; do not post solutions
+The four labs are **formative and unmarked**. Three unmarked quizzes are delivered through Canvas: **Quiz 1 — CNNs, ResNet and RNNs (24 November)**; **Quiz 2 — NLP, Seq2Seq and Attention (1 December)**; **Quiz 3 — Transformers, GPT and LLMs (7 December)**. Keep your own completed worksheets and results; do not post solutions
 in this public repository. Use the [study and AI-use guidance](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/docs/STUDY_GUIDANCE.md)
 for practice, and the official Canvas policy for assessed work.
 

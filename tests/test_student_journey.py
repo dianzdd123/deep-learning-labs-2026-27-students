@@ -43,10 +43,10 @@ class StudentJourneyTests(unittest.TestCase):
         result = self.command("--as-of", "2026-11-08")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(validate(self.root), (0, 0))
-        self.assertEqual((self.root / "README.md").read_text().count("| Coming soon |"), 4)
+        self.assertEqual((self.root / "README.md").read_text().count("| Coming soon |"), 5)
 
     def test_explicit_week_is_date_gated(self):
-        result = self.command("--week", "cnn-resnet", "--as-of", "2026-11-10")
+        result = self.command("--week", "resnet", "--as-of", "2026-11-10")
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse((self.root / "labs").exists())
         self.assertEqual(validate(self.root), (0, 0))
@@ -60,7 +60,7 @@ class StudentJourneyTests(unittest.TestCase):
 
     def test_dry_run_does_not_change_state(self):
         before = (self.root / "release_manifest.json").read_bytes()
-        result = self.command("--as-of", "2026-12-01", "--dry-run")
+        result = self.command("--as-of", "2026-12-07", "--dry-run")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual((self.root / "release_manifest.json").read_bytes(), before)
         self.assertEqual(validate(self.root), (0, 0))
@@ -73,7 +73,7 @@ class StudentJourneyTests(unittest.TestCase):
                            "LAB_WORKFLOW.md", "LEARNING_LOG.md", "GETTING_HELP.md"]:
                 self.assertIn(target, home)
             self.assertIn("https://zhangrobotics.com/msei_website/", home)
-        self.assertEqual(validate(self.root), (9, 4))
+        self.assertEqual(validate(self.root), (9, 5))
         for path in [self.root / "README.md", *self.root.glob("labs/*/README.md"),
                      self.root / "orientation/START_HERE.md"]:
             for target in re.findall(r"\]\(([^\s)]+)\)", path.read_text()):
@@ -123,6 +123,19 @@ class StudentJourneyTests(unittest.TestCase):
         released = set(manifest["released"])
         self.assertEqual((ROOT / "README.md").read_text(), render_home(released, manifest.get("released_labs", [])))
 
+    def test_one_lab_per_week_matches_current_web_syllabus(self):
+        for as_of, expected, next_lab in [
+            ("2026-11-17", (3, 2), "lab2-resnet"),
+            ("2026-11-24", (5, 3), "lab3-rnn"),
+            ("2026-12-01", (7, 4), "lab4-transformer"),
+            ("2026-12-07", (9, 5), None),
+        ]:
+            result = self.command("--as-of", as_of)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(validate(self.root), expected)
+            if next_lab:
+                self.assertFalse((self.root / "labs" / next_lab).exists())
+
     def test_individual_cnn_release_survives_scheduled_week(self):
         self.release("orientation")
         folder = self.root / "labs/lab1-cnn"
@@ -136,10 +149,10 @@ class StudentJourneyTests(unittest.TestCase):
         manifest = {"released": ["orientation"], "released_labs": ["cnn"]}
         (self.root / "release_manifest.json").write_text(json.dumps(manifest))
         home = render_home({"orientation"}, ["cnn"])
-        self.assertIn("Lab 2: Coming soon", home)
+        self.assertIn("Residual Networks | Coming soon", home)
         self.assertEqual(validate(self.root), (3, 1))
         before = {p.name: p.read_bytes() for p in folder.iterdir()}
-        self.release("cnn-resnet")
+        self.release("resnet")
         self.assertEqual(validate(self.root), (5, 2))
         self.assertTrue((self.root / "labs/lab2-resnet").is_dir())
         for name, content in before.items():

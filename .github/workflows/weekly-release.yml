@@ -2,8 +2,8 @@ name: Weekly student lab release
 
 on:
   schedule:
-    # The four 2026 dates fall in GMT, so 08:35 UTC = 08:35 Europe/London.
-    - cron: '35 8 * * 2'
+    # The teaching dates fall in GMT; Monday covers the final lab on 7 December.
+    - cron: '35 8 * * 1,2'
   workflow_dispatch:
     inputs:
       week:
@@ -11,7 +11,7 @@ on:
         type: choice
         required: true
         default: auto
-        options: [auto, orientation, cnn-resnet, rnn, transformer]
+        options: [auto, orientation, cnn, resnet, rnn, transformer]
       dry_run:
         description: "Preview only (do not publish)"
         type: boolean
