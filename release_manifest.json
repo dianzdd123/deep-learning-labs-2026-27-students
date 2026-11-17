@@ -1,6 +1,7 @@
 {
   "released": [
-    "orientation"
+    "orientation",
+    "cnn"
   ],
   "released_labs": [
     "cnn"
