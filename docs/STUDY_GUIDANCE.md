@@ -7,7 +7,7 @@ The point of a laboratory session is not simply to make a notebook run. It is to
 ## A repeatable learning cycle
 
 1. **Predict:** Write down the input and output shapes, the learning task, the proposed loss and one potential failure mode **before** executing your code.
-2. **Implement:** Complete the blank cells yourself. Work through the model one layer or operation at a time; inspect shapes and parameters.
+2. **Implement:** Complete the guided cells yourself. Work through the model one layer or operation at a time; inspect shapes and parameters.
 3. **Test:** Establish a small baseline. Use a fixed seed, train/validation/test separation and a controlled training budget.
 4. **Diagnose:** Examine training curves and class-specific or task-specific errors. A single high accuracy number is rarely sufficient.
 5. **Explain and improve:** Change one factor, justify the change and describe what your results do and do not establish.

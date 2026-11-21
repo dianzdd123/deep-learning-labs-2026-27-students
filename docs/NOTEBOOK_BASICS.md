@@ -19,7 +19,7 @@ does not necessarily mean the downloaded notebook is invalid.
 ## Read, implement, run, inspect
 
 A **Markdown cell** explains the task or records reasoning. A **code cell** executes
-Python. In a student worksheet the code cells start empty; write your own code there.
+Python. In a student worksheet the code cells contain starter code; complete the TODOs there.
 
 1. Read the instruction directly above the cell.
 2. Predict what variables, shapes and outputs you expect.
@@ -76,7 +76,7 @@ Keep assessed work in an authorised private location.
 
 A released `.py` worksheet mirrors the notebook's instructions as comments. VS Code
 recognises `# %%` as a code-cell boundary and `# %% [markdown]` as commentary. Fill in
-one task at a time. The supplied blank template has no executable solution.
+one task at a time. The supplied guided template has no executable solution.
 
 When your code is ready, run it with your environment's Python. A plain script starts
 with a fresh namespace each time; unlike a notebook, it cannot rely on an old cell

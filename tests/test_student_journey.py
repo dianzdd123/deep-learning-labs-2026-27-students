@@ -84,9 +84,9 @@ class StudentJourneyTests(unittest.TestCase):
         for topic in LABS:
             for framework in ["keras", "pytorch"]:
                 script = python_worksheet(make_notebook(topic, framework, REPO))
-                self.assertEqual(ast.parse(script).body, [])
+                self.assertTrue(ast.parse(script).body)
                 self.assertIn("# %% [markdown]", script)
-                self.assertIn("Add your own implementation here", script)
+                self.assertIn("TODO", script)
                 self.assertIn("LEARNING_LOG.md", script)
         rnn = make_notebook("rnn", "pytorch", REPO)
         prose = "\n".join("".join(c["source"]) for c in rnn["cells"])
@@ -98,11 +98,12 @@ class StudentJourneyTests(unittest.TestCase):
         notebook_path = self.root / "orientation/environment_check.ipynb"
         notebook = json.loads(notebook_path.read_text())
         cell = next(c for c in notebook["cells"] if c["cell_type"] == "code")
+        original = cell["source"]
         cell["source"] = ["answer = 1\n"]
         notebook_path.write_text(json.dumps(notebook))
         with self.assertRaises(AssertionError):
             validate(self.root)
-        cell["source"] = []
+        cell["source"] = original
         cell["execution_count"] = 1
         notebook_path.write_text(json.dumps(notebook))
         with self.assertRaises(AssertionError):

@@ -8,8 +8,8 @@ You will complete four **unmarked practice labs**: CNN, ResNet, RNN and Transfor
 Each has a Keras/TensorFlow worksheet and a PyTorch worksheet. **Choose one framework
 for your first attempt. You do not need to complete both versions before moving on.**
 
-The code cells are deliberately empty. You will write the implementation using the
-instructions, lecture ideas and documentation. A blank cell is not a download error.
+The code cells contain starter code and TODOs. You will write the implementation using the
+instructions, lecture ideas and documentation. Replace each `...` before running that cell.
 
 ## 1. Choose where to work
 
@@ -45,7 +45,7 @@ your chosen framework imports; you know where your work is saved.
 ## 3. Open a worksheet when it is released
 
 Return to the [release table on the homepage](../README.md#weekly-worksheets).
-It tracks blank worksheets in this public repository. **Coming soon** means that
+It tracks guided worksheets in this public repository. **Coming soon** means that
 worksheet has not been published here; it does not describe the status of lecture
 slides, authorised course notebooks or the released Part A dataset. Preparation is
 separate from Labs 1–4. If a scheduled worksheet is missing, check Canvas.
@@ -58,7 +58,7 @@ For a released lab:
 4. Read the learning aim, dataset description and all exercises before coding.
 5. Follow the [lab workflow](LAB_WORKFLOW.md). Work on one exercise at a time.
 
-Released labs also provide an empty `.py` worksheet with VS Code cell markers.
+Released labs also provide a guided `.py` worksheet with VS Code cell markers.
 It contains the same instructions as comments. It does nothing until you add your
 own code. Use the notebook first if you want plots and explanations together.
 
@@ -66,7 +66,7 @@ own code. Use the notebook first if you want plots and explanations together.
 
 | Resource | Use it for |
 |---|---|
-| This public student hub | Preparation guides, published blank worksheets, practice and help |
+| This public student hub | Preparation guides, published guided worksheets, practice and help |
 | [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) | Course introduction, lecture and handbook previews, videos, Main labs and optional Additional sessions |
 | Canvas | Confirmed timetable, support channels, quizzes, assessment rules and submission |
 | [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) | Official coursework code/data access and accompanying instructions |

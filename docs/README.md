@@ -18,7 +18,7 @@ reference, troubleshooting step or place to record your experiment.
 | Assessed work | [Coursework guidance](COURSEWORK_GUIDANCE.md); Canvas is authoritative |
 | Adapting the materials | [Reuse guidance](REUSE.md) · [Contributing](../CONTRIBUTING.md) |
 
-The four lab worksheets are blank coding exercises. Completed worked examples and
+The four lab worksheets are guided coding exercises. Completed worked examples and
 instructor material are not part of this public student route.
 
 The [teaching page](https://www.intelligentrobotics-acrossscales.com/teaching) provides

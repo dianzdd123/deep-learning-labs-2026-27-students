@@ -11,7 +11,7 @@
 | **Canvas** | Current coursework handbook and briefing slides; official announcements, assessment rules, deadlines, group arrangements and submissions |
 | **Teaching page → Final coursework** | Nine-page Simplified Handbook preview, project briefing slides, Sessions A–C video previews and suggested work plan |
 | **[Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A)** | Released tactile dataset, data exploration, setup and model submission-interface instructions |
-| **This lab repository** | Preparation guides and published blank formative worksheets for CNN, ResNet, RNN and Transformer |
+| **This lab repository** | Preparation guides and published guided formative worksheets for CNN, ResNet, RNN and Transformer |
 
 The **coursework handbook and briefing slides are available on Canvas**, and the
 **Part A dataset has been released through GitHub**. Follow the Part A repository's

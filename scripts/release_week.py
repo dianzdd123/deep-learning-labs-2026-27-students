@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Publish only student instructions and blank .ipynb exercise cells; no solutions."""
+"""Publish only student instructions and guided .ipynb exercise cells; no solutions."""
+from starters import ORIENTATION, lab_cells
+
 import argparse
 import json
 import os
@@ -65,13 +67,14 @@ LABS = {
 def md(text, i):
     return {"cell_type":"markdown","id":f"m{i:03d}","metadata":{},"source":text.splitlines(keepends=True)}
 
-def blank(i):
-    return {"cell_type":"code","id":f"c{i:03d}","metadata":{},"execution_count":None,"outputs":[],"source":[]}
+def starter(i, code):
+    return {"cell_type":"code","id":f"c{i:03d}","metadata":{},"execution_count":None,"outputs":[],"source":code.splitlines(keepends=True)}
 
 def make_notebook(key, framework, repo):
     lab = LABS[key]
     number = lab["number"]
     path = f"labs/lab{number}-{key}/lab{number}_{key}_{framework}.ipynb"
+    guidance = lab_cells(key, framework)
     cells = []
     cells.append(md(
        f"# Lab {number}: {lab['title']} | {framework.title()}\n\n"
@@ -79,7 +82,7 @@ def make_notebook(key, framework, repo):
        "**Lecturer:** Dr Dandan Zhang | **Formative, unmarked**\n\n"
        f"**Dataset:** {lab['data']}\n\n"
        f"**Learning aim:** {lab['goal']}\n\n"
-       "**Student worksheet:** Code cells are intentionally empty. Implement every task yourself. "
+       "**Student worksheet:** Replace each `...` and complete the TODOs before running that cell. Shape checks help you verify each step. "
        "Save your own Colab or Jupyter copy before editing. Do not confuse these teaching datasets with the graded tactile coursework.\n\n"
        f"[Jupyter on GitHub](https://github.com/{repo}/blob/main/{path}) | "
        f"[Open in Google Colab](https://colab.research.google.com/github/{repo}/blob/main/{path})\n", 0))
@@ -88,8 +91,8 @@ def make_notebook(key, framework, repo):
        f"**Chosen framework:** {'Keras 3 with TensorFlow backend' if framework=='keras' else 'PyTorch and torchvision (where relevant)'}.\n\n"
        "Before training: inspect your Python/framework version, choose CPU or available GPU, "
        "set a random seed, and write down the dataset split and intended metrics. "
-       "No solution code is supplied; add your own imports and configuration below.\n", 1))
-    cells.append(blank(1))
+       "Run the starter imports and record your settings below.\n", 1))
+    cells.append(starter(1, guidance[0]))
     for idx, (heading, description) in enumerate(lab["steps"], start=2):
         extra = ""
         if key == "rnn":
@@ -101,7 +104,7 @@ def make_notebook(key, framework, repo):
         else:
             extra = "Use channels-first images, nn.Module and DataLoader. Distinguish training updates from evaluation."
         cells.append(md(f"## Exercise {idx-1}. {heading}\n\n{description}\n\n**Framework hint:** {extra}\n\n**Check before moving on:** Write down expected tensor shapes and the evidence you will collect.\n",idx))
-        cells.append(blank(idx))
+        cells.append(starter(idx, guidance[idx-1]))
     cells.append(md(
         "## Help while you work\n\n"
         f"[Lab workflow](https://github.com/{repo}/blob/main/docs/LAB_WORKFLOW.md) · "
@@ -119,23 +122,21 @@ def make_notebook(key, framework, repo):
 def orientation_notebook():
     return {"nbformat":4,"nbformat_minor":5,
        "metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python"},"colab":{"provenance":[]}},
-       "cells":[md("# Preparation: Getting started with Google Colab\n\n**Environment check and coursework data exploration | 10 November 2026**\n\nThis is an optional blank preparation worksheet, separate from the four main labs. Open in Colab or download for Jupyter/VS Code. Check Python and your chosen framework, then follow the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) for the released tactile dataset. This worksheet does not contain that dataset. Use the current handbook and announcements on Canvas for assessed work.\n",0),
-       md("## 1. Check your environment\n\nWrite code to report Python version, selected Keras or PyTorch version and the available CPU/GPU. Do not paste access tokens.\n",1),blank(1),
-       md("## 2. Explore the data responsibly\n\nFollow the current official Final Coursework data instructions, identify sample shapes and labels, and record your own observations. Keep test data separate from model selection.\n",2),blank(2),
-       md("## 3. Questions for the teaching session\n\nWrite one dataset question and one training or evaluation question to discuss in the Q&A.\n",3),blank(3)]}
+       "cells":[md("# Preparation: Getting started with Google Colab\n\n**Environment check and coursework data exploration | 10 November 2026**\n\nThis is an optional guided preparation worksheet, separate from the four main labs. Open in Colab or download for Jupyter/VS Code. Check Python and your chosen framework, then follow the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) for the released tactile dataset. This worksheet does not contain that dataset. Use the current handbook and announcements on Canvas for assessed work.\n",0),
+       md("## 1. Check your environment\n\nWrite code to report Python version, selected Keras or PyTorch version and the available CPU/GPU. Do not paste access tokens.\n",1),starter(1, ORIENTATION[0]),
+       md("## 2. Explore the data responsibly\n\nFollow the current official Final Coursework data instructions, identify sample shapes and labels, and record your own observations. Keep test data separate from model selection.\n",2),starter(2, ORIENTATION[1]),
+       md("## 3. Questions for the teaching session\n\nWrite one dataset question and one training or evaluation question to discuss in the Q&A.\n",3),starter(3, ORIENTATION[2])]}
 
 def python_worksheet(notebook):
-    """Mirror the instructions as comments; keep every executable cell empty."""
+    """Export each prompt and its matching starter code."""
     parts = ["# Student worksheet: add your own code beneath each # %% marker.\n"
-             "# This blank template does not execute a model or training loop.\n"]
+             "# Replace each ellipsis and complete the TODOs before running its cell.\n"]
     for cell in notebook["cells"]:
         source = "".join(cell["source"])
         if cell["cell_type"] == "markdown":
             parts.append("# %% [markdown]\n" + "\n".join("# " + line for line in source.splitlines()) + "\n")
         else:
-            if source.strip():
-                raise ValueError("Student exports must not contain filled solution code")
-            parts.append("# %%\n# Add your own implementation here.\n")
+            parts.append("# %%\n" + source.rstrip() + "\n")
     return "\n".join(parts)
 
 
@@ -156,11 +157,11 @@ def lab_readme(key, repo):
                  f"[.py with VS Code cells]({stem}.py) |\n")
     text += "\n## Follow this order\n\n"
     text += "1. Save a personal copy and check its kernel/framework.\n"
-    text += "2. Read all the tasks, then implement one blank cell at a time.\n"
+    text += "2. Read all the tasks, then complete one guided cell at a time.\n"
     text += "3. Check shapes on a tiny batch before training.\n"
     text += "4. Use validation evidence to choose settings; freeze choices before the final held-out evaluation.\n"
     text += "5. Restart and run from the top, then save your work and learning record.\n\n"
-    text += "Code cells are **blank by design**. The `.py` file contains the same instructions as comments and will do nothing until you implement the tasks.\n\n"
+    text += "Replace each `...` and complete the TODOs. The Python worksheet contains the same prompts and starter code as the notebook.\n\n"
     text += "## Learning checkpoints\n\n" + "\n".join(f"- {description}" for _, description in lab["steps"])
     text += "\n\n## After the lab\n\n"
     text += "Use the [learning log](../../docs/LEARNING_LOG.md) to explain measured results, representative errors and one limitation. Keep your implementation in your own files. This lab is not a coursework submission.\n"
@@ -172,20 +173,14 @@ def render_home(released, released_labs=()):
     text += "**ELEC70129 · Imperial College London · I-X MSc AIAI**  \n**Module leader: Dr Dandan Zhang**\n\n"
     text += "Learn to build, inspect and explain a deep learning experiment. Start with one framework and work through the four unmarked labs: **CNN → ResNet → RNN → Transformer**.\n\n"
     text += "**Course home:** [Teaching page](https://www.intelligentrobotics-acrossscales.com/teaching). Use it for the course introduction, lecture materials, handbook previews, videos and the Main labs / Additional sessions overview. **Canvas** holds the current assessment handbook, briefing slides, official announcements and submission links.\n\n"
-    text += "**Student course access:** contact [Dr Dandan Zhang](mailto:d.zhang17@imperial.ac.uk) at **d.zhang17@imperial.ac.uk**, quoting your module code and the resource title. This public repository contains preparation guides and, when published here, blank student worksheets. Authorised notebooks linked from the teaching page may require separate course access.\n\n"
-    if "cnn" in released or "cnn" in released_labs:
-        text += "## Released now: CNN Lab 1\n\n"
-        text += "**[Open CNN Lab 1](labs/lab1-cnn/README.md)** · Released 16 November for the **17 November** practical.\n\n"
-        text += "[![Keras: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/" + REPO + "/blob/main/labs/lab1-cnn/lab1_cnn_keras.ipynb) **Keras / TensorFlow** &nbsp; "
-        text += "[![PyTorch: Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/" + REPO + "/blob/main/labs/lab1-cnn/lab1_cnn_pytorch.ipynb) **PyTorch**\n\n"
-        text += "Choose one framework. Save your own copy and implement the blank exercise cells.\n\n"
+    text += "**Student course access:** contact [Dr Dandan Zhang](mailto:d.zhang17@imperial.ac.uk) at **d.zhang17@imperial.ac.uk**, quoting your module code and the resource title. This public repository contains preparation guides and, when published here, guided student worksheets. Authorised notebooks linked from the teaching page may require separate course access.\n\n"
     text += "## Start in three steps\n\n"
     text += "1. **New here?** Follow [Start here](docs/STUDENT_START_HERE.md). It explains what to do before the first lab.\n"
     text += "2. **Set up once:** choose [Colab or local VS Code/Jupyter](docs/ENVIRONMENT_SETUP.md), then run the small readiness check.\n"
     text += "3. **When your lab is released:** open its page below, save your own copy and follow the [lab workflow](docs/LAB_WORKFLOW.md).\n\n"
-    text += "**Choose Keras/TensorFlow or PyTorch for your first run.** You do not need both. Released notebooks have deliberately blank code cells; writing the code is the exercise. GitHub previews files; Colab or a local Python kernel executes them.\n\n"
+    text += "**Choose Keras/TensorFlow or PyTorch for your first run.** You do not need both. Each exercise gives you starter code. Complete the TODOs and replace each `...` before running the cell. GitHub previews files; Colab or a local Python kernel executes them.\n\n"
     text += "## Weekly worksheets\n\n"
-    text += "This table reports **blank worksheet availability in this public repository**, not the availability of lecture slides, authorised worked examples or the assessed dataset. Preparation is separate from the four numbered main labs. [Full teaching and release calendar](docs/RELEASE_CALENDAR.md).\n\n"
+    text += "This table reports **guided worksheet availability in this public repository**, not the availability of lecture slides, authorised worked examples or the assessed dataset. Preparation is separate from the four numbered main labs. [Full teaching and release calendar](docs/RELEASE_CALENDAR.md).\n\n"
     text += "**Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.\n\n"
     text += "| Lab / preparation | Teaching date, 2026 | Topic | Worksheet availability |\n|---|---|---|---|\n"
     for index, (slug, due, title, labs) in enumerate(WEEKS):
@@ -201,7 +196,7 @@ def render_home(released, released_labs=()):
         topic = title.split(": ", 1)[1]
         label = "Preparation (not a main lab)" if slug == "orientation" else " + ".join(f"Lab {LABS[key]['number']}" for key in labs)
         text += f"| {label} | {due} | {topic} | {entry} |\n"
-    text += "\nEach released lab page offers a notebook, a Colab link and a matching blank Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.\n"
+    text += "\nEach released lab page offers a notebook, a Colab link and a matching guided Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.\n"
     # Keep this reusable guidance after the changing release table.
     overview = Path(__file__).resolve().parents[1] / "docs" / "HUB_OVERVIEW.md"
     if overview.exists():
@@ -225,10 +220,10 @@ def publish_week(root, slug, repo, dry_run=False):
         changes["orientation/START_HERE.md"] = (
             "# Preparation: Environment check and coursework data exploration\n\n"
             "[Student home](../README.md) · [Environment setup](../docs/ENVIRONMENT_SETUP.md)\n\n"
-            "This optional preparation activity is separate from Labs 1–4. Save your own copy of the blank worksheet. The assessed tactile dataset is released through the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A), not through this worksheet. Follow the current handbook on Canvas.\n\n"
+            "This optional preparation activity is separate from Labs 1–4. Save your own copy of the guided worksheet. The assessed tactile dataset is released through the separate [Part A coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A), not through this worksheet. Follow the current handbook on Canvas.\n\n"
             "[View / download notebook](environment_check.ipynb) · "
             f"[Open in Colab](https://colab.research.google.com/github/{repo}/blob/main/orientation/environment_check.ipynb) · "
-            "[Blank Python worksheet](environment_check.py)\n\n"
+            "[Guided Python worksheet](environment_check.py)\n\n"
             "Complete your environment checks, inspect data only through the official coursework route, and record one question for the Q&A. "
             "This is unmarked preparation, not an assessment submission.\n")
         notebook = orientation_notebook()
@@ -245,7 +240,7 @@ def publish_week(root, slug, repo, dry_run=False):
                 notebook = make_notebook(key, fw, repo)
                 changes[f"{folder}/lab{n}_{key}_{fw}.ipynb"] = json.dumps(notebook, indent=2) + "\n"
                 changes[f"{folder}/lab{n}_{key}_{fw}.py"] = python_worksheet(notebook)
-    changes[f"release_notes/{slug}.md"]=f"# {week[2]}\n\nPublished: {week[1]}\n\nThe repository now includes student instructions and deliberately empty coding cells for this week's activities. Previous labs remain accessible. No completed implementations or staff-only answer keys are included.\n"
+    changes[f"release_notes/{slug}.md"]=f"# {week[2]}\n\nTeaching date: {week[1]}\n\nThe repository now includes student instructions and guided coding exercises for this week's activities. Previous labs remain accessible. No completed implementations or staff-only answer keys are included.\n"
     released.add(slug)
     changes["README.md"]=render_home(released, released_labs)
     manifest={"released":[w[0] for w in WEEKS if w[0] in released]}

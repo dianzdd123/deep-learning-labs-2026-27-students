@@ -15,7 +15,7 @@ The ResNet exercise is a compact teaching comparison. The Transformer exercise i
 
 The teaching page also lists setup/tensors/training, image folders (Cats vs Dogs), text sentiment (IMDb), ResNet transfer learning, and earlier CNN, ResNet, RNN and attention tutorials. These are preparation or independent-study extensions, with **no extra required labs or scheduled teaching dates**. They are not part of this repository's four-lab worksheet release sequence. Use the teaching page and approved course access for their availability.
 
-GNNs, full Seq2Seq, diffusion and AGI are lecture or reading topics; this public worksheet repository does not supply runnable labs for them. A blank student worksheet needs your implementation before it can train a model.
+GNNs, full Seq2Seq, diffusion and AGI are lecture or reading topics; this public worksheet repository does not supply runnable labs for them. A guided student worksheet needs your implementation before it can train a model.
 
 ## Use the guides when you need them
 

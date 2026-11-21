@@ -200,7 +200,7 @@ Keep that terminal open while using JupyterLab.
 - [ ] My chosen framework reports its version and completes the tensor check.
 - [ ] I can run cells in order after a kernel restart.
 - [ ] I can distinguish Markdown instructions from executable code cells.
-- [ ] I know that the released worksheet's blank code cells are intentional.
+- [ ] I know that the released worksheet's guided code cells are intentional.
 - [ ] I know where to keep results and how to ask for help.
 
 ## Common problems

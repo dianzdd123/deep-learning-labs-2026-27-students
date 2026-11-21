@@ -16,12 +16,12 @@ Understand local convolution, pooling, weight sharing and image classification.
 ## Follow this order
 
 1. Save a personal copy and check its kernel/framework.
-2. Read all the tasks, then implement one blank cell at a time.
+2. Read all the tasks, then complete one guided cell at a time.
 3. Check shapes on a tiny batch before training.
 4. Use validation evidence to choose settings; freeze choices before the final held-out evaluation.
 5. Restart and run from the top, then save your work and learning record.
 
-Code cells are **blank by design**. The `.py` file contains the same instructions as comments and will do nothing until you implement the tasks.
+Replace each `...` and complete the TODOs. The Python worksheet contains the same prompts and starter code as the notebook.
 
 ## Learning checkpoints
 
@@ -34,7 +34,3 @@ Code cells are **blank by design**. The `.py` file contains the same instruction
 ## After the lab
 
 Use the [learning log](../../docs/LEARNING_LOG.md) to explain measured results, representative errors and one limitation. Keep your implementation in your own files. This lab is not a coursework submission.
-
-## Release
-
-Released on **16 November 2026** for the CNN practical on 17 November. The five exercise checkpoints match the current course-master Lab 1.

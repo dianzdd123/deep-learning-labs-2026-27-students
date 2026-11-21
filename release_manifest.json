@@ -1,7 +1,10 @@
 {
   "released": [
     "orientation",
-    "cnn"
+    "cnn",
+    "resnet",
+    "rnn",
+    "transformer"
   ],
   "released_labs": [
     "cnn"

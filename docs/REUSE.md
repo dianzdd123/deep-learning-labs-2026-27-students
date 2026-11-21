@@ -2,14 +2,14 @@
 
 Student-facing Deep Learning laboratory hub, 2026–27.
 
-**Current scope:** Scheduled blank worksheets and preparation guidance; unreleased labs and assessed solutions stay unpublished.
+**Current scope:** Scheduled guided worksheets and preparation guidance; unreleased labs and assessed solutions stay unpublished.
 
 
 ## Choose your route
 
 Students should start with [the student guide](STUDENT_START_HERE.md) and [environment setup](ENVIRONMENT_SETUP.md). Google Colab needs no local GPU. GitHub previews notebooks but does not execute them. A downloaded notebook can also be opened in VS Code or JupyterLab.
 
-For another teacher adapting this repository, preserve the blank coding cells and check the release schedule before making any notebook public. Course-specific dates, assessment links and institutional branding need review for a new cohort. This repository's presence on GitHub is not permission to redistribute unrelated teaching materials.
+For another teacher adapting this repository, preserve the guided coding cells and check the release schedule before making any notebook public. Course-specific dates, assessment links and institutional branding need review for a new cohort. This repository's presence on GitHub is not permission to redistribute unrelated teaching materials.
 
 ## Structure
 

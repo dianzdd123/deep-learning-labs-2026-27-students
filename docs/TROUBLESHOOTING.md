@@ -8,7 +8,7 @@ time. Repeatedly reinstalling packages or rerunning later cells can hide the cau
 | Symptom | First check | Next action |
 |---|---|---|
 | GitHub shows a notebook but no Run button | You are in the preview | Open Colab or download the `.ipynb` for a local kernel |
-| Worksheet code cells are empty | The page says student worksheet | This is intentional; implement the task above each cell |
+| A cell contains `...` | The page says student worksheet | This is intentional; replace each ellipsis and complete the TODOs |
 | Lab link is not available yet | Homepage release status | Use preparation guides; check Canvas if the date has passed |
 | Download has nested folders or cannot save | ZIP has not been extracted | Extract it and open the folder containing `README.md` |
 | `python3.12` / `py -3.12` is not found | Python installation and version | Install/select Python 3.12, or use Colab |
@@ -25,7 +25,7 @@ time. Repeatedly reinstalling packages or rerunning later cells can hide the cau
 | Training is slow or memory runs out | Batch size, subset and model size | Reduce the starting experiment; preserve the protocol when comparing models |
 | Dataset download fails | Network and official host | Keep the error; retry later or ask for the approved course route |
 | Colab disconnects / files disappear | Runtime storage is temporary | Reconnect, rerun setup and restore your saved work/results |
-| A `.py` worksheet prints nothing | The template contains only comments | Add your own implementation; blank templates are not completed programs |
+| A starter cell raises a type or shape error | An ellipsis may still be present | Complete the current and preceding cells; check the first failing shape |
 | Script appears to pause at a figure | `plt.show()` is displaying a window | Close the plot when ready to continue; save wanted figures first |
 
 ## Three checks to include in a help request

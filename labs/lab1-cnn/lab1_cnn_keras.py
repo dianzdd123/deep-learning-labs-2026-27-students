@@ -1,5 +1,5 @@
 # Student worksheet: add your own code beneath each # %% marker.
-# This blank template does not execute a model or training loop.
+# Replace each ellipsis and complete the TODOs before running its cell.
 
 # %% [markdown]
 # # Lab 1: Convolutional Neural Networks | Keras
@@ -12,7 +12,7 @@
 # 
 # **Learning aim:** Understand local convolution, pooling, weight sharing and image classification.
 # 
-# **Student worksheet:** Code cells are intentionally empty. Implement every task yourself. Save your own Colab or Jupyter copy before editing. Do not confuse these teaching datasets with the graded tactile coursework.
+# **Student worksheet:** Replace each `...` and complete the TODOs before running that cell. Shape checks help you verify each step. Save your own Colab or Jupyter copy before editing. Do not confuse these teaching datasets with the graded tactile coursework.
 # 
 # [Jupyter on GitHub](https://github.com/dianzdd123/deep-learning-labs-2026-27-students/blob/main/labs/lab1-cnn/lab1_cnn_keras.ipynb) | [Open in Google Colab](https://colab.research.google.com/github/dianzdd123/deep-learning-labs-2026-27-students/blob/main/labs/lab1-cnn/lab1_cnn_keras.ipynb)
 
@@ -21,10 +21,20 @@
 # 
 # **Chosen framework:** Keras 3 with TensorFlow backend.
 # 
-# Before training: inspect your Python/framework version, choose CPU or available GPU, set a random seed, and write down the dataset split and intended metrics. No solution code is supplied; add your own imports and configuration below.
+# Before training: inspect your Python/framework version, choose CPU or available GPU, set a random seed, and write down the dataset split and intended metrics. Run the starter imports and record your settings below.
 
 # %%
-# Add your own implementation here.
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+seed = 42
+keras.utils.set_random_seed(seed)
+print(tf.__version__, tf.config.list_physical_devices("GPU"))
+# TODO: record your device and choose the validation metric.
+validation_metric = ...
 
 # %% [markdown]
 # ## Exercise 1. Inspect the data
@@ -36,7 +46,13 @@
 # **Check before moving on:** Write down expected tensor shapes and the evidence you will collect.
 
 # %%
-# Add your own implementation here.
+(x_pool, y_pool), (x_test, y_test) = keras.datasets.fashion_mnist.load_data()
+print(x_pool.shape, y_pool.shape, x_pool.min(), x_pool.max())
+order = np.random.default_rng(seed).permutation(len(x_pool))
+train_ids, val_ids = ...  # TODO: partition order into two disjoint index arrays.
+# Scale all images consistently and add a channel axis for grayscale images.
+x_train, y_train = ...
+x_val, y_val = ...
 
 # %% [markdown]
 # ## Exercise 2. Plan the tensor shapes
@@ -48,7 +64,11 @@
 # **Check before moving on:** Write down expected tensor shapes and the evidence you will collect.
 
 # %%
-# Add your own implementation here.
+sample_shape = x_train.shape[1:]
+probe = layers.Conv2D(16, 3, padding="same")
+features = probe(x_train[:2])
+pooled = ...  # TODO: apply 2 x 2 pooling and predict the resulting dimensions.
+print(sample_shape, features.shape, pooled.shape)
 
 # %% [markdown]
 # ## Exercise 3. Implement a small CNN
@@ -60,7 +80,15 @@
 # **Check before moving on:** Write down expected tensor shapes and the evidence you will collect.
 
 # %%
-# Add your own implementation here.
+model = keras.Sequential([
+    keras.Input(shape=sample_shape),
+    layers.Conv2D(16, 3, padding="same", activation="relu"),
+    ...,  # TODO: pooling and a second convolution with activation
+    layers.Flatten(),
+    ...,  # ten raw class scores
+])
+model.summary()
+assert model(x_train[:2]).shape == (2, 10)
 
 # %% [markdown]
 # ## Exercise 4. Fit a baseline
@@ -72,7 +100,11 @@
 # **Check before moving on:** Write down expected tensor shapes and the evidence you will collect.
 
 # %%
-# Add your own implementation here.
+epochs = 3
+model.compile(optimizer="adam", loss=..., metrics=["accuracy"])  # TODO: integer labels and logits.
+history = model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=epochs)
+plt.plot(history.history["val_accuracy"])
+# Add a labelled training curve and inspect the gap.
 
 # %% [markdown]
 # ## Exercise 5. Evaluate and explain
@@ -84,7 +116,13 @@
 # **Check before moving on:** Write down expected tensor shapes and the evidence you will collect.
 
 # %%
-# Add your own implementation here.
+# TODO: choose weights using validation results, then freeze the model.
+final_model = ...
+logits = final_model.predict(x_test, verbose=0)
+predicted = ...  # Pick one class per example.
+truth = np.asarray(y_test).reshape(-1)
+print(tf.math.confusion_matrix(truth, predicted))
+# Locate misclassified indices and inspect examples.
 
 # %% [markdown]
 # ## Help while you work

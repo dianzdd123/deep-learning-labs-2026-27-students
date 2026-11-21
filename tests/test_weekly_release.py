@@ -24,8 +24,8 @@ class WeeklyReleaseTests(unittest.TestCase):
                 book=make_notebook(key,fw,REPO)
                 self.assertEqual(book["nbformat"],4)
                 self.assertGreaterEqual(sum(c["cell_type"]=="code" for c in book["cells"]),5)
-                self.assertTrue(all(not "".join(c["source"]).strip() for c in book["cells"] if c["cell_type"]=="code"))
-        self.assertTrue(all(c["cell_type"]!="code" or not c["source"] for c in orientation_notebook()["cells"]))
+                self.assertTrue(all("..." in "".join(c["source"]) for c in book["cells"] if c["cell_type"]=="code"))
+        self.assertTrue(all(c["cell_type"]!="code" or "..." in "".join(c["source"]) for c in orientation_notebook()["cells"]))
 
     def test_release_schedule_and_idempotency(self):
         for slug,dt,title,labs in WEEKS:
@@ -38,7 +38,7 @@ class WeeklyReleaseTests(unittest.TestCase):
                     fn=self.root/f"labs/lab{n}-{key}/lab{n}_{key}_{fw}.ipynb"
                     self.assertTrue(fn.exists())
                     book=json.loads(fn.read_text())
-                    self.assertTrue(all(not c["source"] for c in book["cells"] if c["cell_type"]=="code"))
+                    self.assertTrue(all("..." in "".join(c["source"]) for c in book["cells"] if c["cell_type"]=="code"))
         m=json.loads((self.root/"release_manifest.json").read_text())
         self.assertEqual(len(m["released"]),5)
 

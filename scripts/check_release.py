@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Validate released blank worksheets and the absence of unreleased lab folders."""
+"""Validate released guided worksheets and the absence of unreleased lab folders."""
 import ast
 import json
 from pathlib import Path
 from release_week import WEEKS, LABS, python_worksheet
+from starters import ORIENTATION, lab_cells
 
 
 def validate(root):
@@ -37,17 +38,23 @@ def validate(root):
         assert book["nbformat"] == 4
         codes = [cell for cell in book["cells"] if cell["cell_type"] == "code"]
         assert len(codes) >= 3, path
-        for cell in codes:
-            assert not "".join(cell["source"]).strip(), f"Prefilled student code: {path}"
+        if path.parent.name == "orientation":
+            starters = ORIENTATION
+        else:
+            _, key, framework = path.stem.split("_")
+            starters = lab_cells(key, framework)
+        assert len(starters) == len(codes), path
+        for cell, starter in zip(codes, starters):
+            assert "".join(cell["source"]) == starter, f"Unexpected starter code: {path}"
             assert cell.get("execution_count") is None and not cell.get("outputs"), path
         script = path.with_suffix(".py")
         assert script.is_file(), f"Missing Python worksheet: {script}"
         content = script.read_text()
-        assert not ast.parse(content).body, f"Executable solution code in {script}"
+        ast.parse(content, filename=str(script))
         assert content == python_worksheet(book), f"Notebook/Python instructions differ: {script}"
     return len(expected), len(released)
 
 
 if __name__ == "__main__":
     notebooks, weeks = validate(Path(__file__).resolve().parents[1])
-    print(f"Validation passed: {notebooks} blank notebook/Python pairs, {weeks} published week(s).")
+    print(f"Validation passed: {notebooks} guided notebook/Python pairs, {weeks} published week(s).")

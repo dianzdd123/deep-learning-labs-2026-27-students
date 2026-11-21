@@ -8,7 +8,7 @@ Aligned with the current web syllabus on **16 November 2026**: six core lectures
 
 ## Released now
 
-**[CNN Lab 1 is available](../labs/lab1-cnn/README.md)** in Keras/TensorFlow and PyTorch. Released **16 November** for the **17 November** practical. Save your own copy; the coding cells are blank exercises.
+All four labs have guided Keras and PyTorch worksheets available from 21 November. Choose one framework and complete its TODOs.
 
 ## Teaching sessions
 
@@ -26,15 +26,15 @@ Lecture 5 bridges Weeks 3 and 4: attention first, then Transformer architectures
 
 ## Public worksheet publication
 
-The [homepage table](../README.md#weekly-worksheets) reports what is actually available. Future worksheets are planned for the corresponding lab date:
+The [homepage table](../README.md#weekly-worksheets) reports what is actually available. Teaching dates and worksheet links are listed below:
 
 | Lab / preparation | Teaching date, 2026 | Worksheet status |
 |---|---|---|
 | Preparation | 10 November | [Environment check](../orientation/START_HERE.md) |
 | Lab 1 · CNN | 17 November | **[Released 16 November](../labs/lab1-cnn/README.md)** |
-| Lab 2 · ResNet | 24 November | Planned |
-| Lab 3 · RNN | 1 December | Planned |
-| Lab 4 · Transformer | 7 December | Planned |
+| Lab 2 · ResNet | 24 November | [Open Lab 2](../labs/lab2-resnet/README.md) |
+| Lab 3 · RNN | 1 December | [Open Lab 3](../labs/lab3-rnn/README.md) |
+| Lab 4 · Transformer | 7 December | [Open Lab 4](../labs/lab4-transformer/README.md) |
 
 Each lab has a Keras/TensorFlow route and a PyTorch route; choose one for your first attempt. Previously published worksheets remain available for revision. A planned date does not guarantee an exact publication time: follow the links actually published and check Canvas for announcements.
 
