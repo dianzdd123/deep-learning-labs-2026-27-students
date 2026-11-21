@@ -43,7 +43,7 @@ class StudentJourneyTests(unittest.TestCase):
         result = self.command("--as-of", "2026-11-08")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(validate(self.root), (0, 0))
-        self.assertEqual((self.root / "README.md").read_text().count("| Coming soon |"), 5)
+        self.assertEqual((self.root / "README.md").read_text().count("| Coming soon |"), 3)
 
     def test_explicit_week_is_date_gated(self):
         result = self.command("--week", "resnet", "--as-of", "2026-11-10")
@@ -66,14 +66,14 @@ class StudentJourneyTests(unittest.TestCase):
         self.assertEqual(validate(self.root), (0, 0))
 
     def test_guidance_and_links_survive_all_releases(self):
-        for slug, _, _, _ in WEEKS:
+        for slug in ["orientation", *LABS]:
             self.release(slug)
             home = (self.root / "README.md").read_text()
             for target in ["STUDENT_START_HERE.md", "ENVIRONMENT_SETUP.md", "NOTEBOOK_BASICS.md",
                            "LAB_WORKFLOW.md", "LEARNING_LOG.md", "GETTING_HELP.md"]:
                 self.assertIn(target, home)
             self.assertIn("https://zhangrobotics.com/msei_website/", home)
-        self.assertEqual(validate(self.root), (9, 5))
+        self.assertEqual(validate(self.root), (5, 3))
         for path in [self.root / "README.md", *self.root.glob("labs/*/README.md"),
                      self.root / "orientation/START_HERE.md"]:
             for target in re.findall(r"\]\(([^\s)]+)\)", path.read_text()):
@@ -88,10 +88,11 @@ class StudentJourneyTests(unittest.TestCase):
                 self.assertIn("# %% [markdown]", script)
                 self.assertIn("TODO", script)
                 self.assertIn("LEARNING_LOG.md", script)
-        rnn = make_notebook("rnn", "pytorch", REPO)
-        prose = "\n".join("".join(c["source"]) for c in rnn["cells"])
-        self.assertIn("batch_first=True", prose)
-        self.assertNotIn("channels-first images", prose)
+    def test_withheld_labs_cannot_be_released_early(self):
+        for slug in ("rnn", "transformer"):
+            result = self.command("--week", slug, "--allow-early")
+            self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(validate(self.root), (0, 0))
 
     def test_filled_code_and_outputs_are_rejected(self):
         self.release("orientation")
@@ -128,8 +129,8 @@ class StudentJourneyTests(unittest.TestCase):
         for as_of, expected, next_lab in [
             ("2026-11-17", (3, 2), "lab2-resnet"),
             ("2026-11-24", (5, 3), "lab3-rnn"),
-            ("2026-12-01", (7, 4), "lab4-transformer"),
-            ("2026-12-07", (9, 5), None),
+            ("2026-12-01", (5, 3), "lab4-transformer"),
+            ("2026-12-07", (5, 3), None),
         ]:
             result = self.command("--as-of", as_of)
             self.assertEqual(result.returncode, 0, result.stderr)

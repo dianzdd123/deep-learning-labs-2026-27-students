@@ -29,6 +29,10 @@ class WeeklyReleaseTests(unittest.TestCase):
 
     def test_release_schedule_and_idempotency(self):
         for slug,dt,title,labs in WEEKS:
+            if labs and slug not in LABS:
+                with self.assertRaises(ValueError):
+                    publish_week(self.root,slug,REPO)
+                continue
             wrote=publish_week(self.root,slug,REPO)
             self.assertTrue(wrote)
             self.assertEqual(publish_week(self.root,slug,REPO),[])
@@ -40,7 +44,7 @@ class WeeklyReleaseTests(unittest.TestCase):
                     book=json.loads(fn.read_text())
                     self.assertTrue(all("..." in "".join(c["source"]) for c in book["cells"] if c["cell_type"]=="code"))
         m=json.loads((self.root/"release_manifest.json").read_text())
-        self.assertEqual(len(m["released"]),5)
+        self.assertEqual(len(m["released"]),3)
 
     def test_preview_and_future_not_visible(self):
         preview=publish_week(self.root,"orientation",REPO,True)

@@ -2,9 +2,7 @@
   "released": [
     "orientation",
     "cnn",
-    "resnet",
-    "rnn",
-    "transformer"
+    "resnet"
   ],
   "released_labs": [
     "cnn"

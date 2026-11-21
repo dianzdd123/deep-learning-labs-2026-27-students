@@ -40,28 +40,7 @@ LABS = {
    ("Train both fairly","Use the same split, optimiser, learning rate and epoch budget. Match compatible initial branch weights and batch order where possible. Plot validation performance; document remaining differences."),
    ("Assess the evidence","Choose a model based on validation evidence; evaluate on the held-out set, inspect failures and discuss what extra seeds/depth would establish.")],
   "questions":["Why is a shortcut impossible if channel counts differ without an additional projection?","Can a short single-seed run establish the superiority of a residual architecture?"]},
- "rnn": {
-  "number":3,"title":"Recurrent Neural Networks, GRU and LSTM",
-  "data":"Synthetic increasing sequences and their reversed counterparts",
-  "goal":"Explain recurrent state, gating and why sequence order matters.",
-  "steps":[
-   ("Create an order-sensitive task","Generate paired ordered and reversed sequences using the same values; plot an example and verify both have the same mean."),
-   ("Prevent paired leakage","Assign entire source-sequence pairs to train/validation/test splits; document why splitting individual sequence copies would be misleading."),
-   ("Implement three recurrent models","Implement RNN, GRU and LSTM classifiers with matching hidden sizes and two-class logits. Trace shapes at every timestep."),
-   ("Compare training behaviour","Use the same split, optimiser and training budget; report parameters and validation evidence. Consider a simple order-sensitive baseline before claiming a need for long-term memory."),
-   ("Check failure modes","Select using validation results belonging to the saved weights you will evaluate; inspect held-out errors and explain padding/masking for variable length.")],
-  "questions":["Why is an order-blind average insufficient for this task?","How do recurrent gates influence retention of state?"]},
- "transformer": {
-  "number":4,"title":"Transformer Encoder and Self-Attention",
-  "data":"Fashion-MNIST, 28 x 28 grayscale images",
-  "goal":"Trace patch tokens, positional embeddings and scaled dot-product attention.",
-  "steps":[
-   ("Inspect image patches","Divide each 28 x 28 image into non-overlapping 7 x 7 patches; derive 16 patch tokens containing 49 pixel values each."),
-   ("Implement token embeddings","Project each token into 32 features and add learnable position embeddings. Check that the position weights belong to the model and receive updates. Explain why position information is important."),
-   ("Build encoder attention","Implement four-head scaled dot-product self-attention, a residual connection and feed-forward layers. Assert attention shape (batch, 4, 16, 16)."),
-   ("Train a simple classifier","Pool encoder representations and predict ten class logits. Plot train and validation curves using a small, fixed budget."),
-   ("Evaluate and critique","Use validation for one controlled modification, freeze your choices, then inspect held-out errors. Explain why the encoder is not a complete Seq2Seq translator or generative LLM.")],
-  "questions":["Why can't a token's original position be inferred from its contents alone?","Why is an attention heatmap not automatically an explanation of a prediction?"]},
+
 }
 
 def md(text, i):
@@ -95,11 +74,7 @@ def make_notebook(key, framework, repo):
     cells.append(starter(1, guidance[0]))
     for idx, (heading, description) in enumerate(lab["steps"], start=2):
         extra = ""
-        if key == "rnn":
-            extra = ("Use (batch, time, features); distinguish recurrent outputs, hidden states and LSTM cell state. "
-                     + ("Read the Keras recurrent-layer return options." if framework == "keras" else
-                        "Use batch_first=True where appropriate; hidden-state layout is a separate contract."))
-        elif framework == "keras":
+        if framework == "keras":
             extra = "Use channels-last images and Keras layers. Cross-check integer labels with the chosen loss and logits setting."
         else:
             extra = "Use channels-first images, nn.Module and DataLoader. Distinguish training updates from evaluation."
@@ -184,7 +159,9 @@ def render_home(released, released_labs=()):
     text += "**Part A data has been released:** use the separate [Final Coursework repository](https://github.com/dianzdd123/2026-2027-Deep-Learning-Final-Coursework-Part-A) and its dataset download instructions. A Coming soon worksheet entry below does not mean the coursework data is unreleased.\n\n"
     text += "| Lab / preparation | Teaching date, 2026 | Topic | Worksheet availability |\n|---|---|---|---|\n"
     for index, (slug, due, title, labs) in enumerate(WEEKS):
-        if slug not in released and not any(key in released_labs for key in labs):
+        if labs and slug not in LABS:
+            entry = "Unreleased"
+        elif slug not in released and not any(key in released_labs for key in labs):
             entry = "Coming soon"
         elif slug == "orientation":
             entry = "[Preparation worksheet](orientation/START_HERE.md)"
@@ -194,7 +171,7 @@ def render_home(released, released_labs=()):
                 if slug in released or key in released_labs else f"Lab {LABS[key]['number']}: Coming soon"
                 for key in labs)
         topic = title.split(": ", 1)[1]
-        label = "Preparation (not a main lab)" if slug == "orientation" else " + ".join(f"Lab {LABS[key]['number']}" for key in labs)
+        label = "Preparation (not a main lab)" if slug == "orientation" else f"Lab {index}"
         text += f"| {label} | {due} | {topic} | {entry} |\n"
     text += "\nEach released lab page offers a notebook, a Colab link and a matching guided Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.\n"
     # Keep this reusable guidance after the changing release table.
@@ -207,6 +184,8 @@ def render_home(released, released_labs=()):
     return text
 
 def publish_week(root, slug, repo, dry_run=False):
+    if slug != "orientation" and slug not in LABS:
+        raise ValueError(f"This worksheet is withheld: {slug}")
     manifest_path=root/"release_manifest.json"
     state=json.loads(manifest_path.read_text())
     released=set(state.get("released",[]))
@@ -257,7 +236,7 @@ def publish_week(root, slug, repo, dry_run=False):
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--week",default="auto",choices=["auto"]+[w[0] for w in WEEKS])
+    ap.add_argument("--week",default="auto",choices=["auto", "orientation", *LABS])
     ap.add_argument("--allow-early",action="store_true")
     ap.add_argument("--dry-run",action="store_true")
     ap.add_argument("--print-tags",action="store_true")
@@ -272,7 +251,7 @@ def main():
                 print(f"week-{dt}-{slug}|{title}|release_notes/{slug}.md")
         return
     today=date.fromisoformat(args.as_of) if args.as_of else datetime.now(ZoneInfo("Europe/London")).date()
-    due=[w for w in WEEKS if (w[1]<=today.isoformat() if args.week=="auto" else w[0]==args.week)]
+    due=[w for w in WEEKS if (w[0] == "orientation" or w[0] in LABS) and (w[1]<=today.isoformat() if args.week=="auto" else w[0]==args.week)]
     for slug,dt,title,labs in due:
         if today<date.fromisoformat(dt) and not args.allow_early:
             raise SystemExit(f"{slug} cannot be published before {dt} without --allow-early")

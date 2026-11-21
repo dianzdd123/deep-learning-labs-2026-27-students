@@ -28,8 +28,8 @@ This table reports **guided worksheet availability in this public repository**, 
 | Preparation (not a main lab) | 2026-11-10 | Environment check and coursework data exploration | [Preparation worksheet](orientation/START_HERE.md) |
 | Lab 1 | 2026-11-17 | CNN Image Classification | [Lab 1: CNN](labs/lab1-cnn/README.md) |
 | Lab 2 | 2026-11-24 | Residual Networks | [Lab 2: RESNET](labs/lab2-resnet/README.md) |
-| Lab 3 | 2026-12-01 | Recurrent Sequence Modelling | [Lab 3: RNN](labs/lab3-rnn/README.md) |
-| Lab 4 | 2026-12-07 | Transformer Image Classification | [Lab 4: TRANSFORMER](labs/lab4-transformer/README.md) |
+| Lab 3 | 2026-12-01 | Recurrent Sequence Modelling | Unreleased |
+| Lab 4 | 2026-12-07 | Transformer Image Classification | Unreleased |
 
 Each released lab page offers a notebook, a Colab link and a matching guided Python worksheet for each framework. Save completed work in your own files. If a date has passed but a link is not yet available, check Canvas for the teaching team's announcement.
 

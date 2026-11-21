@@ -14,9 +14,9 @@ def validate(root):
     assert len(released) == len(set(released)), "Duplicate release state"
     assert len(released_labs) == len(set(released_labs)), "Duplicate individual lab release"
     assert set(released_labs).issubset(LABS), "Unknown individual lab release"
-    assert set(released).issubset({week[0] for week in WEEKS}), "Unknown release"
+    assert set(released).issubset({"orientation", *LABS}), "Unknown release"
     expected = set()
-    for slug, _, _, labs in WEEKS:
+    for index, (slug, _, _, labs) in enumerate(WEEKS):
         if slug == "orientation":
             folder = root / "orientation"
             if slug not in released:
@@ -24,7 +24,7 @@ def validate(root):
             else:
                 expected.add(folder / "environment_check.ipynb")
         for key in labs:
-            number = LABS[key]["number"]
+            number = index
             folder = root / f"labs/lab{number}-{key}"
             if slug not in released and key not in released_labs:
                 assert not folder.exists(), f"Unreleased lab visible: {key}"
